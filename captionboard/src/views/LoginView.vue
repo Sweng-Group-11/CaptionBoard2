@@ -30,7 +30,7 @@
                 try {
                     const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
                     console.log(val)
-                    this.$router.replace({name: "secret"})
+                    await this.$router.replace({name: "secret"})
                 } catch(err) {
                     console.log(err)
                 }
@@ -46,12 +46,6 @@ input {
     padding: 30px;
     margin: 20px;
     font-size: 21px;
-}
-
-v-button {
-    width: 400px;
-    height: 75px;
-    font-size: 100px;
 }
 
 .error {

@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-import SecretView from '../views/SecretView.vue'
+import DashboardView from '../views/DashboardView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
@@ -11,9 +10,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home',
-    name: 'home',
-    component: HomeView
+    path: '/',
+    name: 'landingPage',
+    component: LoginView
   },
   {
     path: '/login',
@@ -26,9 +25,9 @@ const routes = [
     component: RegisterView
   },
   {
-    path: '/secret',
-    name: 'secret',
-    component: SecretView,
+    path: '/dashboard',
+    name: 'dashboard',
+    component: DashboardView,
     meta: {requiresAuth: true}
   },
   {
@@ -53,6 +52,13 @@ router.beforeEach((to, from, next) => {
   else {
     next();
   }
+})
+
+router.beforeEach((to, from, next) => {
+  let currentUser = firebase.auth().currentUser
+  let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !currentUser) next('login')
+  else next()
 })
 
 export default router

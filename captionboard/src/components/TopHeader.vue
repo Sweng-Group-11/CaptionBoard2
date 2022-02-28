@@ -1,10 +1,12 @@
 <template>
     <div>
-        Logged in?: 
-        <span v-if="loggedIn">Yes</span>
-        <span v-else>No</span>
+        <span v-if="loggedIn">
+          <v-btn @click="signOut">Sign Out</v-btn>
+        </span>
+        <span v-else>
+          <v-btn @click="register">Not Signed In</v-btn>
+        </span>
         <div>
-            <button @click="signOut">Sign Out</button>
         </div>
     </div>
 </template>
@@ -15,12 +17,7 @@
     export default {
         created() {
             firebase.auth().onAuthStateChanged(user=> {
-                if(user){
-                    this.loggedIn = true;
-                }
-                else {
-                    this.loggedIn = false;
-                }
+                this.loggedIn = !!user;
             })
         },
         data() {
@@ -30,14 +27,16 @@
         },
         methods: {
             async signOut() {
-                try {
-                    const data = await firebase.auth().signOut();
-                    console.log(data);
-                    this.$router.replace({name: "login"})
-                }catch(err) {
-                    console.log(err)
-                }
-                
+              try {
+                const data = await firebase.auth().signOut();
+                console.log(data);
+                await this.$router.replace({name: "login"})
+              } catch (err) {
+                console.log(err)
+              }
+            },
+            async register() {
+              await this.$router.replace({name: "login"})
             }
         }
     }

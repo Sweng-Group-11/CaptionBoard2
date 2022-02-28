@@ -2,14 +2,12 @@
   <v-app>
     <v-main>
       <top-header></top-header>
-      <h1>Welcome to CaptionBoard</h1>
+      <h1>CaptionBoard</h1>
       <div id = "nav">
-        <router-link to="/about">About </router-link>
-        <router-link to="/login">Login </router-link>
-        <router-link to="/secret">Secret </router-link>
-        <router-link to="/register">Register </router-link>
+        <router-link to="/dashboard">User Dashboard</router-link>
       </div>
       <router-view/>
+      <login-comp></login-comp>
     </v-main>
   </v-app>
 </template>

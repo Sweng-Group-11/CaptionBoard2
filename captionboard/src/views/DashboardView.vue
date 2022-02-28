@@ -1,11 +1,12 @@
 <template>
     <div>
-        Secret
+        Hello
     </div>
 </template>
 
 <script>
-    export default {
+
+  export default {
         
     }
 </script>
