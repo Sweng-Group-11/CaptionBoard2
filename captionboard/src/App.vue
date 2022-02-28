@@ -6,7 +6,7 @@
       <div id = "nav">
         <router-link to="/dashboard">User Dashboard</router-link>
       </div>
-      <router-view/>
+      <router-view :key="$route.path"></router-view>
       <login-comp></login-comp>
     </v-main>
   </v-app>

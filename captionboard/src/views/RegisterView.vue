@@ -22,11 +22,11 @@
                 try{
                     const user = firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                     console.log(user)
-                    await this.$router.replace({name: "dashboard"});
                 }catch(err){
                     console.log(err)
                 }
                 alert('submitted')
+              await this.$router.replace({name: "dashboard"});
             }
         },
         data () {
@@ -46,12 +46,6 @@ input {
     padding: 30px;
     margin: 20px;
     font-size: 21px;
-}
-
-button {
-    width: 400px;
-    height: 75px;
-    font-size: 100px;
 }
 
 .error {
