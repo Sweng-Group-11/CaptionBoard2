@@ -22,7 +22,7 @@
                 try{
                     const user = firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
                     console.log(user)
-                    this.$router.replace({name: "secret"});
+                    await this.$router.replace({name: "dashboard"});
                 }catch(err){
                     console.log(err)
                 }

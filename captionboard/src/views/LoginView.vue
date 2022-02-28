@@ -30,7 +30,7 @@
                 try {
                     const val = await firebase.auth().signInWithEmailAndPassword(this.email, this.password);
                     console.log(val)
-                    await this.$router.replace({name: "secret"})
+                    await this.$router.replace({name: "dashboard"})
                 } catch(err) {
                     console.log(err)
                 }
