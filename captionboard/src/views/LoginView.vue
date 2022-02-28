@@ -1,5 +1,8 @@
 <template>
     <div>
+        <span v-if="loggedIn">
+            {{ this.$router.replace({name: "login"}) }}
+        </span>
         <form @submit.prevent="pressed">
             <div class="login">
                 <input type="email" placeholder="email" v-model="email">
@@ -34,7 +37,12 @@
                 } catch(err) {
                     console.log(err)
                 }
-            }
+            },
+            created() {
+            firebase.auth().onAuthStateChanged(user=> {
+                this.loggedIn = !!user;
+            })
+        },
         }
     }
 </script>
