@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <top-header></top-header>
       <h1>Welcome to CaptionBoard</h1>
       <div id = "nav">
         <router-link to="/about">About </router-link>
@@ -14,12 +15,9 @@
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import TopHeader from "./components/TopHeader.vue"
 export default {
-  name: 'App',
-  components: HelloWorld,
-
+  components: {'top-header': TopHeader},
   data: () => ({
  
   }),
