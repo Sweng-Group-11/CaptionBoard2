@@ -50,9 +50,13 @@
 <style lang="scss" scoped>
 
 input {
-    width: 400px;
-    padding: 30px;
-    margin: 20px;
+    max-width: 300px;
+    width: 30%;
+    padding: 10px;
+    margin-left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 20px;
+    text-align: center;
     font-size: 21px;
 }
 
