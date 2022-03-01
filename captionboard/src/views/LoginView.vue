@@ -48,12 +48,17 @@
 </script>
 
 <style lang="scss" scoped>
-
 input {
-    width: 400px;
-    padding: 30px;
-    margin: 20px;
+    --topBottomMargin: 20px;
+    max-width: 400px;
+    width: 30%;
+    padding: 10px;
+    margin-top: var(--topBottomMargin);
+    margin-bottom: var(--topBottomMargin);
+    margin-left: 50%;
     font-size: 21px;
+    text-align: center;
+    transform: translate(-50%, -50%);
 }
 
 .error {
