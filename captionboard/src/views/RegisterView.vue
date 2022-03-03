@@ -27,19 +27,16 @@
             async pressed(){
                 try{
                     const user = firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-                    
+                    .then(() => {
+                        firebase.auth().currentUser.updateProfile({
+                            displayName: this.first_name
+                        })
+                    })
                     console.log(user)
                 }catch(err){
                     console.log(err)
                 }
                 alert('Submitted')
-                firebase.auth().currentUser.updateProfile({
-                    displayName: this.first_name + this.surname
-                }).then(() => {
-
-                }).catch((err) => {
-                    console.log(err)
-                }) 
               await this.$router.replace({name: "dashboard"});
             }
         },
