@@ -2,6 +2,12 @@
     <div>
         <div v-if="error" class="error">{{error.message}}</div>
         <form @submit.prevent="pressed">
+            <div class="first_name">
+                <input type="first_name" v-model="first_name" placeholder="First Name">
+            </div>
+            <div class="surname">
+                <input type="surname" v-model="surname" placeholder="Last Name">
+            </div>
             <div class="email">
                 <input type="email" v-model="email" placeholder="email">
             </div>
@@ -21,11 +27,19 @@
             async pressed(){
                 try{
                     const user = firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+                    
                     console.log(user)
                 }catch(err){
                     console.log(err)
                 }
-                alert('submitted')
+                alert('Submitted')
+                firebase.auth().currentUser.updateProfile({
+                    displayName: this.first_name + this.surname
+                }).then(() => {
+
+                }).catch((err) => {
+                    console.log(err)
+                }) 
               await this.$router.replace({name: "dashboard"});
             }
         },
@@ -33,7 +47,9 @@
             return {
                 email: '',
                 password: '',
-                error: ''
+                error: '',
+                first_name: '',
+                surname: ''
             }
         }
     }
