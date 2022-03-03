@@ -8,11 +8,11 @@
         <fieldset class="login-form">
             <span style="font-size:40px; text-justify: 15px; font-family: 'Ubuntu', sans-serif;">CaptionBoard Login</span>
             <div class="login">
-                <label for="email" style="display: block; padding-top: 10px; color: rgb(0, 89, 128); text-align: left;">Email</label>
+                <label for="email" style="display: block; padding-top: 10px; color: rgb(255, 255, 255); text-align: left;">Email</label>
                 <input type="email" id="email" v-model="email" onclick="fnChangeBorder">
             </div>
             <div class="password">
-                <label for="password" style="display: block; padding-top: 10px; color: rgb(0, 89, 128); text-align: left;">Password</label>
+                <label for="password" style="display: block; padding-top: 10px; color: rgb(255, 255, 255); text-align: left;">Password</label>
                 <input type="password" v-model="password">
             </div>
             <button type="submit" class="loginButton">Login</button>
@@ -80,7 +80,7 @@
     transform: translate(-50%, 0);
     border-radius: 5px;
     border-width: 0px;
-    box-shadow: 2px 2px 0px rgb(196, 196, 196);
+    box-shadow: 3px 3px 0px rgb(196, 196, 196);
 }
 
 input {
@@ -95,7 +95,7 @@ input {
     transform: translate(-50%, 0);
     border:none;
     border-bottom: 3px solid #0a6cc7;
-    border-color: rgb(0, 89, 128);
+    border-color: rgb(0, 126, 167);
     outline: 0;
     background-color: rgb(255, 255, 255);
     height: 50px;
