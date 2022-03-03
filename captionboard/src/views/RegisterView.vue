@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-center">
         <div v-if="error" class="error">{{error.message}}</div>
         <form @submit.prevent="pressed">
             <div class="first_name">
@@ -13,6 +13,27 @@
             </div>
             <div class="password">
                 <input type="password" v-model="password" placeholder="password"> 
+            </div>
+            <div type="User Type Select">
+                <v-menu offset-y>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                        color="blue"
+                        v-bind="attrs"
+                        v-on="on"
+                        >
+                        User Type
+                        </v-btn>
+                    </template>
+                    <v-list>
+                        <v-list-item
+                        v-for="(item, index) in items"
+                        :key="index"
+                        >
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
             </div>
             <v-btn type="submit">Register</v-btn>
         </form>
@@ -46,7 +67,11 @@
                 password: '',
                 error: '',
                 first_name: '',
-                surname: ''
+                surname: '',
+                items: [
+                    {title: 'Client'},
+                    {title: 'Freelancer'}
+                ]
             }
         }
     }
