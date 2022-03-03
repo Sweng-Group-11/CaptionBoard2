@@ -2,7 +2,6 @@
   <v-app>
     <v-main>
       <top-header></top-header>
-      <h1>CaptionBoard</h1>
       <div id = "nav">
         <router-link to="/dashboard">User Dashboard</router-link>
       </div>
