@@ -52,13 +52,13 @@
                         firebase.auth().currentUser.updateProfile({
                             displayName: this.first_name
                         })
+                    }).then(() => {
+                        this.$router.replace({name: "dashboard"});
                     })
                     console.log(user)
                 }catch(err){
                     console.log(err)
                 }
-                alert('Submitted')
-              await this.$router.replace({name: "dashboard"});
             }
         },
         data () {

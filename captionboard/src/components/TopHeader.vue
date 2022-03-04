@@ -6,7 +6,7 @@
           <button type="button" @click="signOut" class="signIn">Sign Out</button>
         </span>
         <span v-else>
-          <button type="button" @click="register" class="signIn">Login/Register</button>
+          <button type="button" @click="register" class="signIn">Login</button>
         </span>
         </fieldset>
     </div>

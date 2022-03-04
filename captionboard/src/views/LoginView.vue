@@ -1,9 +1,6 @@
 
 <template>
     <div style="text-align:center; color: white; font-family: 'Ubuntu', sans-serif;">
-        <span v-if="loggedIn">
-            {{ this.$router.replace({name: "login"}) }}
-        </span>
         <form @submit.prevent="pressed">
         <fieldset class="login-form">
             <span style="font-size:40px; text-justify: 15px; font-family: 'Ubuntu', sans-serif;">CaptionBoard Login</span>
@@ -17,7 +14,7 @@
             </div>
             <button type="submit" class="loginButton">Login</button>
             <span>Need an account? Click here to <router-link to="/register" style="color: rgb(235, 242, 250)">Register</router-link></span>
-            </fieldset>
+        </fieldset>
         </form>
         <div class="error" v-if="error">{{error.message}}</div>
     </div>
