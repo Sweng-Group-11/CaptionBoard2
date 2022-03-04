@@ -13,10 +13,10 @@
         <input type="surname" v-model="surname" placeholder="Last Name" />
       </div>
       <div class="email">
-        <input type="email" v-model="email" placeholder="email" />
+        <input type="email" v-model="email" placeholder="Email Address" />
       </div>
       <div class="password">
-        <input type="password" v-model="password" placeholder="password" />
+        <input type="password" v-model="password" placeholder="Password" />
       </div>
       <div type="User Type Select">
         <v-menu offset-y>
