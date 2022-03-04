@@ -6,7 +6,6 @@
         </router-link>
         </fieldset>
       </div>
-      <!-- <router-view :key="$route.path"></router-view> -->
 </template>
 
 <script>
