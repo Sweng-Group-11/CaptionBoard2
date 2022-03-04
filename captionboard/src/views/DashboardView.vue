@@ -9,7 +9,7 @@
   export default {
     data () {
       return {
-        username: firebase.auth().currentUser.email,
+        username: firebase.auth().currentUser.displayName,
       }
     }
   }
