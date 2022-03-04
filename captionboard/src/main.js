@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from "axios";
 import firebase from "firebase/compat/app"
+import "firebase/compat/firestore"
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false

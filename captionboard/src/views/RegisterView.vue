@@ -38,6 +38,8 @@
 <script>
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
+import "firebase/compat/firestore";
+
 export default {
   methods: {
     async pressed() {
@@ -49,6 +51,13 @@ export default {
             firebase.auth().currentUser.updateProfile({
               displayName: this.first_name,
             });
+          })
+          .then(() => {
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+              first_name: this.first_name,
+              surname: this.surname,
+              user_type: "test"
+            })
           })
           .then(() => {
             this.$router.replace({ name: "dashboard" });
