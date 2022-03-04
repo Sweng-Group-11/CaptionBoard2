@@ -25,7 +25,8 @@
             return {
                 email: '',
                 password: '',
-                error: ''
+                error: '',
+                loggedIn: false
             }
         },
         methods: {
