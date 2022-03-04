@@ -4,14 +4,6 @@
       <!-- Below tag instantiates the header component -->
       <top-header></top-header>
       <navBarFreelancer></navBarFreelancer>
-      <!-- NavBar mostly for testing, probably won't keep? -->
-      <div id="nav">
-        <fieldset class="navBar">
-          <router-link to="/dashboard">
-            <button class="userButton">User Dashboard</button>
-          </router-link>
-        </fieldset>
-      </div>
       <!-- Below tag calls whatever view is set as home page '/' in router/index.js -->
       <router-view :key="$route.path"></router-view>
     </v-main>
