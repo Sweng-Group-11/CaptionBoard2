@@ -7,31 +7,31 @@
           type="first_name"
           v-model="first_name"
           placeholder="First Name"
+          required
         />
       </div>
       <div class="surname">
-        <input type="surname" v-model="surname" placeholder="Last Name" />
+        <input type="surname" v-model="surname" placeholder="Last Name"  required/>
       </div>
       <div class="email">
-        <input type="email" v-model="email" placeholder="Email Address" />
+        <input type="email" v-model="email" placeholder="Email Address" required/>
       </div>
       <div class="password">
-        <input type="password" v-model="password" placeholder="Password" />
+        <input type="password" v-model="password" placeholder="Password" required/>
       </div>
       <!-- Drop down menu to select user type -->
+      <!-- Actually returns the index of the user's selection, so 0 for Admin and 1 for Freelancer. -->
       <div type="User Type Select">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="blue" v-bind="attrs" v-on="on"> User Type </v-btn>
           </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in items"
-              :key="index"
-              v-model="user_type"
-            >
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item>
+          <v-list >
+            <v-list-item-group v-model="user_type" required>
+              <v-list-item v-for="(item, index) in items" :key="index" :rules="'Required'">
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
           </v-list>
         </v-menu>
       </div>
@@ -49,7 +49,12 @@ import "firebase/compat/firestore";
 export default {
   methods: {
     async pressed() {
-      try {
+      if(this.user_type == "")
+      {
+        alert("Please fully fill out the form.")
+      }
+      else{
+        try {
         //function to create the user and authenticate via firebase
         const user = firebase
           .auth()
@@ -80,6 +85,7 @@ export default {
       } catch (err) {
         console.log(err);
       }
+      }
     },
   },
   //initialising data to be used in this view
@@ -90,7 +96,7 @@ export default {
       error: "",
       first_name: "",
       surname: "",
-      items: [{ title: "Client" }, { title: "Freelancer" }],
+      items: [{ title: "Admin" }, { title: "Freelancer" }],
       user_type: "",
     };
   },
