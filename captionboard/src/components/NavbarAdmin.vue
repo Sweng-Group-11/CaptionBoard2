@@ -4,7 +4,19 @@
       <div id = "nav">
         <fieldset class="navBarAdmin">
         <router-link to="/dashboard">
-        <button class="userDashboardButton">User Dashboard</button>
+        <button class="navbarButton">User Dashboard</button>
+        </router-link>
+        <router-link to="/existingStoryboard">
+        <button class="navbarButton">View Existing Storyboards</button>
+        </router-link>
+        <router-link to="/addNewStoryboard">
+        <button class="navbarButton">Add New Storyboards</button>
+        </router-link>
+        <router-link to="/accountSettings">
+        <button class="navbarButton">Account Settings</button>
+        </router-link>
+        <router-link to="/about">
+        <button class="navbarButton">About Us</button>
         </router-link>
         </fieldset>
       </div>
@@ -17,10 +29,9 @@
 </script>
 
 <style lang="scss" scoped>
-.userDashboardButton{
-  margin-left: 0%;
-    max-width: 150px;
-    width: 80%;
+.navbarButton{
+    max-width: 200px;
+    width: 20%;
     padding: 15px, 15px, 15px, 15px;
     height: 40px;
     background-color: rgb(0, 89, 128);
