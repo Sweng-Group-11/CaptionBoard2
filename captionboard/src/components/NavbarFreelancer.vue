@@ -1,6 +1,4 @@
 <template>
-  <v-app>
-    <v-main>
       <div id = "nav">
         <fieldset class="navBarFreelancer">
         <router-link to="/dashboard">
@@ -8,9 +6,6 @@
         </router-link>
         </fieldset>
       </div>
-      <router-view :key="$route.path"></router-view>
-    </v-main>
-  </v-app>
 </template>
 
 <script>

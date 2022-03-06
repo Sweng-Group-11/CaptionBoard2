@@ -8,8 +8,10 @@ import "firebase/compat/auth";
 
 Vue.use(VueRouter)
 
+//defines all the different routes so that we can link to them from any view/components
 const routes = [
   {
+    //default page, set as login for now but maybe we need a dedicated home page?
     path: '/',
     name: 'landingPage',
     component: LoginView
@@ -28,6 +30,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardView,
+    //this meta tag allows the security rule below, only logged in users can view dashboard
     meta: {
       requiresAuth: true
     }
@@ -39,12 +42,14 @@ const routes = [
   }
 ]
 
+//defines the router used for jumping between pages
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
 
+//router guard blocking access to any page with the requiresAuth meta tag unless they are a logged in user
 router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)

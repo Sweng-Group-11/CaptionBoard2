@@ -11,11 +11,12 @@
         "
         >CaptionBoard</span
       >
+      <!-- login status is determined by the created() method below -->
       <span v-if="loggedIn">
         <button type="button" @click="signOut" class="signIn">Sign Out</button>
       </span>
       <span v-else>
-        <button type="button" @click="register" class="signIn">Login</button>
+        <button type="button" @click="login" class="signIn">Login</button>
       </span>
     </fieldset>
   </div>
@@ -25,6 +26,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 export default {
+  //polls whether the users has successfully logged in or out
   created() {
     firebase.auth().onAuthStateChanged((user) => {
       this.loggedIn = !!user;
@@ -36,6 +38,7 @@ export default {
     };
   },
   methods: {
+    // calls firebase function to sign out and redirects to login page, but could be home?
     async signOut() {
       try {
         const data = await firebase.auth().signOut();
@@ -45,7 +48,8 @@ export default {
         console.log(err);
       }
     },
-    async register() {
+    // just redirects to login page
+    async login() {
       await this.$router.replace({ name: "login" });
     },
   },

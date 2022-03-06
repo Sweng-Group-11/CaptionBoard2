@@ -70,6 +70,7 @@ export default {
     };
   },
   methods: {
+    // method preventing submission unless firebase authenticates the login details
     async pressed() {
       try {
         const val = await firebase
@@ -80,11 +81,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-    created() {
-      firebase.auth().onAuthStateChanged((user) => {
-        this.loggedIn = !!user;
-      });
     },
   },
 };
