@@ -5,7 +5,7 @@
       <fieldset class = "register-form">
         <span
           style="
-            font-size: 40px;
+            font-size: 30px;
             text-justify: 15px;
             color: white;
             font-family: 'Ubuntu', sans-serif;
@@ -33,7 +33,7 @@
       <div type="User Type Select">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="blue" v-bind="attrs" v-on="on"> User Type </v-btn>
+            <v-btn v-bind="attrs" v-on="on"> User Type </v-btn>
           </template>
           <v-list>
             <v-list-item
@@ -117,12 +117,12 @@ export default {
   padding-right: 40px;
   padding-top: 20px;
   padding-bottom: 20px;
-  max-width: 700px;
-  width: 70%;
+  max-width: 350px;
+  width: 40%;
   margin-left: 50%;
-  margin-top: 15%;
+  margin-top: 1%;
   transform: translate(-50%, 0);
-  border-radius: 5px;
+  border-radius: 1px;
   border-width: 0px;
   box-shadow: 3px 3px 0px rgb(196, 196, 196);
 }
