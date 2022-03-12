@@ -2,10 +2,10 @@
   <div class="text-center">
     <div v-if="error" class="error">{{ error.message }}</div>
     <form @submit.prevent="pressed">
-      <fieldset class = "register-form">
+      <fieldset class = "register-form" style="font-family: 'Ubuntu', sans-serif;">
         <span
           style="
-            font-size: 30px;
+            font-size: 40px;
             text-justify: 15px;
             color: white;
             font-family: 'Ubuntu', sans-serif;
@@ -14,26 +14,65 @@
           >CaptionBoard Register</span
         >
       <div class="first_name">
+        <label
+            for="first-name"
+            style="
+              display: block;
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+            "
+            >First Name</label
+          >
         <input
           type="first_name"
           v-model="first_name"
-          placeholder="First Name"
         />
       </div>
       <div class="surname">
-        <input type="surname" v-model="surname" placeholder="Last Name" />
+        <label
+            for="surname"
+            style="
+              display: block;
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+            "
+            >Last Name</label
+          >
+        <input type="surname" v-model="surname" />
       </div>
       <div class="email">
-        <input type="email" v-model="email" placeholder="Email Address" />
+        <label
+            for="email"
+            style="
+              display: block;
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+            "
+            >Email</label
+          >
+        <input type="email" v-model="email" />
       </div>
       <div class="password">
-        <input type="password" v-model="password" placeholder="Password" />
+        <label
+            for="password"
+            style="
+              display: block;
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+            "
+            >Password</label
+          >
+        <input type="password" v-model="password" />
       </div>
       <!-- Drop down menu to select user type -->
       <div type="User Type Select">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn v-bind="attrs" v-on="on"> User Type </v-btn>
+            <button class="userType" v-bind="attrs" v-on="on"> User Type </button>
           </template>
           <v-list>
             <v-list-item
@@ -46,7 +85,13 @@
           </v-list>
         </v-menu>
       </div>
-      <v-btn type = "submit" v-btn color="black white--text" >Register</v-btn>
+      <button class="registerButton" type = "submit" v-btn color="black white--text" >Register</button>
+      <span style="color: rgb(255, 255, 255);"
+          >Already have an account? Click here to
+          <router-link to="/login" style="color: rgb(235, 242, 250)"
+            >Log in</router-link
+          >
+        </span>
       </fieldset>
     </form>
   </div>
@@ -120,9 +165,9 @@ export default {
   max-width: 350px;
   width: 40%;
   margin-left: 50%;
-  margin-top: 1%;
+  margin-top: 2%;
   transform: translate(-50%, 0);
-  border-radius: 1px;
+  border-radius: 5px;
   border-width: 0px;
   box-shadow: 3px 3px 0px rgb(196, 196, 196);
 }
@@ -130,8 +175,8 @@ input {
   max-width: 300px;
   width: 100%;
   padding: 10px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 3px;
+  margin-bottom: 5px;
   margin-left: 50%;
   font-size: 15px;
   text-align: center;
@@ -144,6 +189,35 @@ input {
   height: 50px;
 }
 
+input:focus {
+  border-color: rgb(119, 168, 201);
+}
+
+.userType{
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  max-width: 300px;
+  width: 80%;
+  padding: 15px, 15px, 15px, 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  height: 40px;
+  background-color: rgb(255, 255, 255);
+}
+
+.registerButton{
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  max-width: 300px;
+  width: 80%;
+  padding: 15px, 15px, 15px, 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  height: 40px;
+  background-color: rgb(0, 38, 60);
+  color: rgb(255, 255, 255);
+
+}
 .error {
   color: red;
 }
