@@ -2,6 +2,17 @@
   <div class="text-center">
     <div v-if="error" class="error">{{ error.message }}</div>
     <form @submit.prevent="pressed">
+      <fieldset class = "register-form">
+        <span
+          style="
+            font-size: 40px;
+            text-justify: 15px;
+            color: white;
+            font-family: 'Ubuntu', sans-serif;
+            
+          "
+          >CaptionBoard Register</span
+        >
       <div class="first_name">
         <input
           type="first_name"
@@ -35,7 +46,8 @@
           </v-list>
         </v-menu>
       </div>
-      <v-btn type="submit">Register</v-btn>
+      <v-btn type = "submit" v-btn color="black white--text" >Register</v-btn>
+      </fieldset>
     </form>
   </div>
 </template>
@@ -98,11 +110,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.register-form {
+  background-color: rgb(0, 89, 128);
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  max-width: 700px;
+  width: 70%;
+  margin-left: 50%;
+  margin-top: 15%;
+  transform: translate(-50%, 0);
+  border-radius: 5px;
+  border-width: 0px;
+  box-shadow: 3px 3px 0px rgb(196, 196, 196);
+}
 input {
-  width: 400px;
-  padding: 30px;
-  margin: 20px;
-  font-size: 21px;
+  max-width: 300px;
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 50%;
+  font-size: 15px;
+  text-align: center;
+  transform: translate(-50%, 0);
+  border: none;
+  border-bottom: 3px solid #0a6cc7;
+  border-color: rgb(0, 126, 167);
+  outline: 0;
+  background-color: rgb(255, 255, 255);
+  height: 50px;
 }
 
 .error {
