@@ -28,7 +28,6 @@
             type="email"
             id="email"
             v-model="email"
-            onclick="fnChangeBorder"
           />
         </div>
         <div class="password">
@@ -49,8 +48,8 @@
           >Need an account? Click here to
           <router-link to="/register" style="color: rgb(235, 242, 250)"
             >Register</router-link
-          ></span
-        >
+          >
+        </span>
       </fieldset>
     </form>
     <div class="error" v-if="error">{{ error.message }}</div>

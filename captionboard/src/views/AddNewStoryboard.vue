@@ -1,7 +1,7 @@
 <template>
-
-
-
+    <div>
+        <span>This is the add new storyboards page</span>
+    </div>
 </template>
 
 

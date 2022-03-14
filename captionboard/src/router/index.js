@@ -3,6 +3,11 @@ import VueRouter from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import ViewExistingCaptions from '../views/ViewExistingCaptions.vue'
+import ViewExistingStoryboard from '../views/ViewExistingStoryboard.vue'
+import AccountSettings from '../views/AccountSettings.vue'
+import AddNewStoryboard from '../views/AddNewStoryboard.vue'
+import CaptionStoryboards from '../views/CaptionStoryboards.vue'
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
@@ -39,6 +44,31 @@ const routes = [
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/existingCaptions',
+    name: 'existingCaptions',
+    component: ViewExistingCaptions
+  },
+  {
+    path: '/existingStoryboard',
+    name: 'existingStoryboard',
+    component: ViewExistingStoryboard
+  },
+  {
+    path: '/accountSettings',
+    name: 'accountSettings',
+    component: AccountSettings
+  },
+  {
+    path: '/addNewStoryboard',
+    name: 'addNewStoryboard',
+    component: AddNewStoryboard
+  },
+  {
+    path: '/captionStoryboards',
+    name: 'captionStoryboards',
+    component: CaptionStoryboards
   }
 ]
 

@@ -1,7 +1,7 @@
 <template>
-
-
-
+    <div>
+        <span>This is the account settings page</span>
+    </div>
 </template>
 
 
