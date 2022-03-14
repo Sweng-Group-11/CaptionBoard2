@@ -18,7 +18,7 @@
 
       <!--  Below tag calls whatever view is set as home page '/' in router/index.js and allows for routing between the views/components. -->
       <!--  Seems to be causing the bug that makes every page repeat itself, leaving commented for now as we might need it. -->
-      <router-view :key="$route.path"></router-view>
+      <!-- <router-view :key="$route.path"></router-view> -->
     </v-main>
   </v-app>
 </template>
