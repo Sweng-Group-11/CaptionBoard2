@@ -3,8 +3,7 @@
 
 <template>
   <div class="about">
-    {{ getUserType() }}
-    <p>{{ user_type }}</p>
+    This is an about page.
   </div>
 </template>
 

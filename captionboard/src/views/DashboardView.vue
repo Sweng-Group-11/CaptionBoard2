@@ -4,7 +4,6 @@
 <template>
   <div id="user">
     <h1>Hello {{ username }}</h1>
-    <p>Hello {{ uid }}</p>
     <p></p>
   </div>
 </template>

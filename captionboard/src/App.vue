@@ -1,10 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <!--  Function call to check the user type. Right now this leaves an "[Object Promise]" at the 
-            top of the page. Should be easy enough to hide. -->
-      {{ profileType() }}
-
       <!-- Instantiate the TopHeader component -->
       <top-header></top-header>
 
@@ -18,7 +14,13 @@
 
       <!--  Below tag calls whatever view is set as home page '/' in router/index.js and allows for routing between the views/components. -->
       <!--  Seems to be causing the bug that makes every page repeat itself, leaving commented for now as we might need it. -->
-      <!-- <router-view :key="$route.path"></router-view> -->
+      <router-view :key="$route.path"></router-view>
+
+      <!--  Function call to check the user type. Right now this leaves an "[Object Promise]" at the 
+            top of the page. Should be easy enough to hide. -->
+      <div class="function_call">
+        {{ profileType() }}
+      </div>
     </v-main>
   </v-app>
 </template>
@@ -73,4 +75,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap");
+.function_call {
+  color: rgb(255, 255, 255);
+}
 </style>
