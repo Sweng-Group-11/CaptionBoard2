@@ -3,7 +3,7 @@
 
 <template>
   <div id="user">
-    <h1>Hello {{ username }}</h1>
+    <h1>Hello {{ this.username }}</h1>
     <p></p>
   </div>
 </template>
@@ -14,10 +14,20 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 export default {
+  methods: {
+    async getUsername() {
+      await firebase.auth().currentUser.displayName; 
+      this.username = firebase.auth().currentUser.displayName;
+    }
+  },
+
+  mounted() {
+    this.$nextTick(this.getUsername());
+  },
+  
   data() {
     return {
-      username: firebase.auth().currentUser.displayName,
-      uid: firebase.auth().currentUser.uid,
+      username: "error"
     };
   },
 };
