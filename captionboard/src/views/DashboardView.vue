@@ -24,6 +24,14 @@ export default {
   mounted() {
     this.$nextTick(this.getUsername());
   },
+
+  beforeUpdate() {
+    this.$nextTick(this.getUsername());
+  },
+
+  updated() {
+    this.$nextTick(this.getUsername());
+  },
   
   data() {
     return {

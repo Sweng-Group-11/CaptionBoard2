@@ -41,6 +41,13 @@ export default {
 
   methods: {
     async profileType() {
+
+      if(firebase.auth().currentUser == null)
+      {
+        this.isAdmin = false;
+        this.isFreelancer = false;
+      }
+      else
       firebase
         .firestore()
         .collection("users")
