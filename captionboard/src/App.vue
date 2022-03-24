@@ -72,11 +72,11 @@ export default {
   },
 
   beforeUpdate() {
-    this.profileType();
+    this.$nextTick(this.profileType);
   },
 
   updated() {
-    this.profileType();
+    this.$nextTick(this.profileType);
   },
 
   data: () => {

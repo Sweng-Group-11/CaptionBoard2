@@ -3,7 +3,7 @@
 
 <template>
   <div id="user">
-    <h1>Hello {{ this.username }}</h1>
+    <h1>Hello {{ username }}</h1>
     <p></p>
   </div>
 </template>
@@ -22,15 +22,15 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(this.getUsername());
+    this.$nextTick(this.getUsername);
   },
 
   beforeUpdate() {
-    this.$nextTick(this.getUsername());
+    this.$nextTick(this.getUsername);
   },
 
   updated() {
-    this.$nextTick(this.getUsername());
+    this.$nextTick(this.getUsername);
   },
   
   data() {
