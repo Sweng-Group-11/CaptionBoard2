@@ -1,18 +1,23 @@
 <template>
-  <v-form>
-    <v-container>
-      <v-col
-          cols="12"
-          sm="6"
-          md="3"
-        >
-          <v-text-field
-            label="Add Caption"
-          ></v-text-field>
-        </v-col>
 
-    </v-container>
-  </v-form>  
+
+  <v-row justify="center">
+    <v-expansion-panels accordion>
+      <v-expansion-panel
+        v-for="(item,i) in 5"
+        :key="i"
+      >
+        <v-expansion-panel-header>Storyboard Name</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          Company names
+          Insert Description
+          Thumbnail image
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </v-row>
+
+
 </template>
 
 <script>
