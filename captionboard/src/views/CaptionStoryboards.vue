@@ -1,7 +1,7 @@
 <template>
 
 
-  <v-row justify="center">
+  
     <v-expansion-panels accordion>
       <v-expansion-panel
         v-for="(item,i) in 5"
@@ -12,10 +12,15 @@
           Company names
           Insert Description
           Thumbnail image
+
+          <v-btn elevation="2">
+            Caption this Storyboard
+            </v-btn>
+
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-  </v-row>
+
 
 
 </template>
