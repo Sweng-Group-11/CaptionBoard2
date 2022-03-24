@@ -3,6 +3,7 @@
   <div class="about">
     ADAPT
   </div>
+  
 
 </template>
 
