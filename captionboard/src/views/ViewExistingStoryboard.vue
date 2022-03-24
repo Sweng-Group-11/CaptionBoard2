@@ -1,6 +1,9 @@
 <template>
     <div>
+        <p> </p>
         <img id="dog" src="test" height="125px" width="200px"/>
+        <h1>This image has been downloaded from the database.</h1>
+        <p>(Proof of concept)</p>
     </div>
 </template>
 
