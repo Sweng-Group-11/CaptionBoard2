@@ -110,19 +110,19 @@ router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   
-  let isAdmin = false
-  if(currentUser != null)
-  {
-      firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get()
-    .then((ds) => {
-      if (ds.get("user_type") == 0) {
-        isAdmin = true;
-      }
-    })
-  }
-  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+  // let isAdmin = false
+  // if(currentUser != null)
+  // {
+  //     firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get()
+  //   .then((ds) => {
+  //     if (ds.get("user_type") == 0) {
+  //       isAdmin = true;
+  //     }
+  //   })
+  // }
+  // const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
   
-  if ((requiresAuth && !currentUser) || (requiresAdmin && !isAdmin))
+  if (requiresAuth && !currentUser)
   {
     next('/')
   }
