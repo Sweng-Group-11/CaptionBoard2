@@ -16,11 +16,6 @@
       <!--  Seems to be causing the bug that makes every page repeat itself, leaving commented for now as we might need it. -->
       <router-view :key="$route.path"></router-view>
 
-      <!--  Function call to check the user type. Right now this leaves an "[Object Promise]" at the 
-            top of the page. Should be easy enough to hide. -->
-      <div class="function_call">
-        {{ profileType() }}
-      </div>
     </v-main>
   </v-app>
 </template>
@@ -46,6 +41,13 @@ export default {
 
   methods: {
     async profileType() {
+
+      if(firebase.auth().currentUser == null)
+      {
+        this.isAdmin = false;
+        this.isFreelancer = false;
+      }
+      else
       firebase
         .firestore()
         .collection("users")
@@ -63,6 +65,18 @@ export default {
           }
         });
     },
+  },
+
+  mounted() {
+    this.$nextTick(this.profileType);
+  },
+
+  beforeUpdate() {
+    this.$nextTick(this.profileType);
+  },
+
+  updated() {
+    this.$nextTick(this.profileType);
   },
 
   data: () => {
