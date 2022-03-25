@@ -50,7 +50,7 @@
             <v-textarea
               v-model="form.bio"
               color="blue"
-              required
+              required  
             >
               <template v-slot:label>
                 <div>
@@ -229,7 +229,7 @@
         return (
           this.form.first &&
           this.form.last &&
-          this.form.favoriteAnimal &&
+        //   this.form.favoriteAnimal &&
           this.form.terms
         )
       },
