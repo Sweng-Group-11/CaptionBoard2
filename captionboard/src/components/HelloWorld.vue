@@ -1,8 +1,6 @@
 <template>
-  <v-container>
-    <h1>Hello World.</h1>
-    <h2>Welcome to CaptionBoard</h2>
-  </v-container>
+  <h1>hello</h1>
+  
 </template>
 
 <script>
