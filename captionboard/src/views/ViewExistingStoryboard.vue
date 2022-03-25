@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <v-card
     class="mx-auto"
     max-width="344"
@@ -47,13 +48,55 @@
       </div>
     </v-expand-transition>
   </v-card>
+=======
+    <div>
+        <p> </p>
+        <img id="dog" src="test" height="125px" width="200px"/>
+        <h1>This image has been downloaded from the database.</h1>
+        <p>(Proof of concept)</p>
+    </div>
+>>>>>>> main
 </template>
 
-
 <script>
+<<<<<<< HEAD
   export default {
     data: () => ({
       show: false,
     }),
   }
 </script>
+=======
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
+
+export default {  
+
+  methods: {
+    async showImage() {
+        const storageRef = firebase.storage().ref();
+        storageRef.child('testing/dog.jpg').getDownloadURL().then(function(url) {
+            const img = document.getElementById('dog');
+            img.src = url;
+        }).catch(function(error) {
+            console.log(error)
+        });
+    }
+  },
+
+  beforeMount() {
+      this.showImage()
+  },
+
+  data: () => {
+    return {
+    };
+  },
+};
+</script>
+
+
+<style scoped>
+
+</style>
+>>>>>>> main
