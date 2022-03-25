@@ -6,6 +6,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import firebase from "firebase/compat/app"
 import "firebase/compat/firestore"
+import "firebase/compat/storage"
 
 //part of vue setup
 Vue.config.productionTip = false
