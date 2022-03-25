@@ -1,12 +1,4 @@
 <template>
-<<<<<<< Updated upstream
-    <div>
-        <p> </p>
-        <img id="dog" src="test" height="125px" width="200px"/>
-        <h1>This image has been downloaded from the database.</h1>
-        <p>(Proof of concept)</p>
-    </div>
-=======
   <div>
     <p></p>
     <img id="dog" src="test" height="125px" width="200px" />
@@ -43,7 +35,6 @@
       </v-expand-transition>
     </v-card>
   </div>
->>>>>>> Stashed changes
 </template>
 
 <script>
@@ -79,9 +70,5 @@ export default {
 
 
 <style scoped>
-<<<<<<< Updated upstream
 
 </style>
-=======
-</style>
->>>>>>> Stashed changes
