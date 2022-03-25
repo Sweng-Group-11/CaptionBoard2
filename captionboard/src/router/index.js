@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import RegisterView from '../views/RegisterView.vue'
@@ -19,7 +20,7 @@ const routes = [
     //default page, set as login for now but maybe we need a dedicated home page?
     path: '/',
     name: 'landingPage',
-    component: LoginView
+    component: HomeView
   },
   {
     path: '/register',
@@ -30,6 +31,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: HomeView
   },
   {
     path: '/dashboard',
@@ -48,27 +54,46 @@ const routes = [
   {
     path: '/existingCaptions',
     name: 'existingCaptions',
-    component: ViewExistingCaptions
+    component: ViewExistingCaptions,
+    meta: {
+      requiresFreelancer: true,
+      requiresAuth: true
+    }
   },
   {
     path: '/existingStoryboard',
     name: 'existingStoryboard',
-    component: ViewExistingStoryboard
+    component: ViewExistingStoryboard,
+    meta: {
+      requiresAdmin: true,
+      requiresAuth: true
+    }
   },
   {
     path: '/accountSettings',
     name: 'accountSettings',
-    component: AccountSettings
+    component: AccountSettings,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/addNewStoryboard',
     name: 'addNewStoryboard',
-    component: AddNewStoryboard
+    component: AddNewStoryboard,
+    meta: {
+      requiresAdmin: true,
+      requiresAuth: true
+    }
   },
   {
     path: '/captionStoryboards',
     name: 'captionStoryboards',
-    component: CaptionStoryboards
+    component: CaptionStoryboards,
+    meta: {
+      requiresFreelancer: true,
+      requiresAuth: true
+    }
   }
 ]
 
@@ -81,8 +106,22 @@ const router = new VueRouter({
 
 //router guard blocking access to any page with the requiresAuth meta tag unless they are a logged in user
 router.beforeEach((to, from, next) => {
+  
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  
+  // let isAdmin = false
+  // if(currentUser != null)
+  // {
+  //     firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get()
+  //   .then((ds) => {
+  //     if (ds.get("user_type") == 0) {
+  //       isAdmin = true;
+  //     }
+  //   })
+  // }
+  // const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
+  
   if (requiresAuth && !currentUser)
   {
     next('/')
