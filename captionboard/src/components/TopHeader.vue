@@ -44,7 +44,7 @@ export default {
       try {
         const data = await firebase.auth().signOut();
         console.log(data);
-        await this.$router.replace({ name: "login" });
+        await this.$router.replace({ name: "landingPage" });
       } catch (err) {
         console.log(err);
       }
