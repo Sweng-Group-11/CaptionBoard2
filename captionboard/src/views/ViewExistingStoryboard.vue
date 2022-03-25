@@ -1,9 +1,7 @@
 <template>
   <div>
-    <p></p>
-    <img id="dog" src="test" height="125px" width="200px" />
-    <h1>This image has been downloaded from the database.</h1>
-    <p>(Proof of concept)</p>
+    <v-spacer></v-spacer>
+    
     <v-card class="mx-auto" max-width="344">
       <!-- Thumbnail Image-->
       <v-img
@@ -34,6 +32,19 @@
         </div>
       </v-expand-transition>
     </v-card>
+
+    <div>
+      
+        <div v-for="(image, imageIndex) in imageURLs " :key="imageIndex">
+          <img 
+            :src="image"
+            width="20%"
+            height=auto
+          />        
+        </div>
+
+    </div>
+
   </div>
 </template>
 
@@ -41,29 +52,38 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
 
-export default {
+
+export default {  
+
   methods: {
-    async showImage() {
-      const storageRef = firebase.storage().ref();
-      storageRef
-        .child("testing/dog.jpg")
-        .getDownloadURL()
-        .then(function (url) {
-          const img = document.getElementById("dog");
-          img.src = url;
-        })
-        .catch(function (error) {
-          console.log(error);
+    async showStoryboard() {
+
+      const imageURLs = [];
+
+      const storageRef = firebase.storage().ref("storyboards/user1/storyboard1");
+      storageRef.listAll().then(function(result) {
+        result.items.forEach(function(image) {
+          image.getDownloadURL().then(function(url) {
+            imageURLs.push(url)
+          })
         });
-    },
+      }).catch(function(error) {
+        console.log(error)
+      }).then(() => {
+        this.imageURLs = imageURLs;
+      });
+    }
   },
+  
 
   beforeMount() {
-    this.showImage();
+      this.showStoryboard()
   },
 
   data: () => {
-    return {};
+    return {
+      imageURLs: []
+    };
   },
 };
 </script>

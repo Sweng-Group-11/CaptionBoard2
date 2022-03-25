@@ -68,6 +68,19 @@ export default {
       loggedIn: false,
     };
   },
+
+  mounted() {
+    this.$nextTick(this.checkLoggedIn);
+  },
+
+  beforeUpdate() {
+    this.$nextTick(this.checkLoggedIn);
+  },
+
+  updated() {
+    this.$nextTick(this.checkLoggedIn);
+  },
+
   methods: {
     // method preventing submission unless firebase authenticates the login details
     async pressed() {
@@ -81,6 +94,12 @@ export default {
         console.log(err);
       }
     },
+    async checkLoggedIn() {
+      if(firebase.auth().currentUser != null)
+      {
+        await this.$router.replace({ name: "dashboard" });
+      }
+    }
   },
 };
 </script>
