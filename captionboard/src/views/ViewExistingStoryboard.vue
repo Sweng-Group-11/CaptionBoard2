@@ -1,6 +1,5 @@
 <template>
     <div>
-        
 
         <div>
         <p> </p>
@@ -9,9 +8,14 @@
         <p>(Proof of concept)</p>    
         </div>
       
-        <div id="images">
-
-        </div>
+        <!-- <div id="photo-grid">
+          <photo-grid
+            :box-height="'400px'"
+            :box-width="'30%'"
+            <img v-for="image in "
+          >
+          </photo-grid>
+      </div> -->
 
     </div>
 </template>
@@ -19,6 +23,9 @@
 <script>
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import PhotoGrid from 'vue-photo-grid'
+
+Vue.use(PhotoGrid);
 
 export default {  
 
@@ -35,20 +42,19 @@ export default {
 
     async showStoryboard() {
 
-      const imageURLs = [];
 
       const storageRef = firebase.storage().ref("storyboards/user1/storyboard1");
       storageRef.listAll().then(function(result) {
         result.items.forEach(function(image) {
           image.getDownloadURL().then(function(url) {
-            imageURLs.push(url)
+            this.imageURLs.push(url)
           })
         });
       }).catch(function(error) {
         console.log(error)
       });
 
-      imageURLs.forEach(function(image) {
+      this.imageURLs.forEach(function(image) {
         var img = document.createElement('img');
         img.src = image;
         document.body.appendChild(img);
@@ -72,6 +78,7 @@ export default {
 
   data: () => {
     return {
+      imageURLs: []
     };
   },
 };
