@@ -2,7 +2,7 @@
   <v-card flat>
     <!-- Success Popup after regiterting -->
     <v-snackbar v-model="snackbar" absolute top right color="success">
-      <span>Registration successful!</span>
+      <span>Storyboard Succesfully Uploaded!</span>
       <v-icon dark> mdi-checkbox-marked-circle </v-icon>
     </v-snackbar>
 
@@ -29,7 +29,11 @@
           </v-col>
 
           <v-col cols="12">
-            <v-textarea v-model="form.description" color="blue" required>
+            <v-textarea 
+            v-model="form.description" 
+            :rules="rules.description" 
+            color="blue" 
+            srequired>
               <template v-slot:label>
                 <div>
                   Description of Storyboard
@@ -111,6 +115,7 @@ export default {
         time: [],
         animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
+        description: [(val) => (val || "").length > 0 || "This field is required"]
       },
       animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,
@@ -125,6 +130,7 @@ export default {
       return (
         this.form.storyboardName &&
         this.form.companyName &&
+        this.form.description &&
         //   this.form.favoriteAnimal &&
         this.form.terms
       );
