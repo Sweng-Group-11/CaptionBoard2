@@ -2,17 +2,20 @@
 <template>
   <div class="about">
 
-  <H1>Team</H1>
+  
 
 
  
 
 
   <v-container class="my-6">
-
+<H1 >The Team</H1>
+<br>
       <v-layout row wrap>
+      
         <v-flex xs12 sm6 md4 lg3 v-for="person in team" :key="person.name">
-          <v-card flat class="text-xs-center ma-2">
+          <v-card flat elevation ="4" class="text-xs-center ma-2">
+              
             <v-responsive class="pt-4">
               <v-icon large center>mdi-account-circle</v-icon>
             </v-responsive>
@@ -21,28 +24,31 @@
               <div class="grey--text">{{ person.role }}</div>
             </v-card-text>
             <v-card-actions>
-              <v-btn flat color="grey">
-                <v-icon small left @click="go_to_github(person.github)">mdi-github</v-icon>
+              <v-btn v-on:click="go_to_github(person.github)" flat color="grey">
+                <v-icon small left >mdi-github</v-icon>
                 <span class="">Github</span>
+              </v-btn>
+              <v-btn flat color="grey" v-on:click="go_to_li(person.linkedin)">
+                <v-icon small left >mdi-linkedin</v-icon>
+                <span class="">LinkedIn</span>
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
-        
       </v-layout>
 
     </v-container>
  
- <v-container class="Links">
- 
-  </v-container>
- <v-btn href="https://github.com/Sweng-Group-11/CaptionBoard" target="_blank">Project Github</v-btn>
-  <v-btn href="https://github.com/Sweng-Group-11/CaptionBoard">Team Github</v-btn>
-  <v-img class="ma-2" src ="@/assets/github_logo.png" alt=""
+
+
+  
+    <v-btn x-large href="https://github.com/Sweng-Group-11/CaptionBoard" class ="ma-4" target="_blank"><v-img class="ma-2" src ="@/assets/github_logo.png" alt=""
     contain  
-    height="50px"
-    width="50px"></v-img>
- 
+    height="45px"
+    width="45px"></v-img>Project Github</v-btn>
+      
+      
+     
 
 <v-card
     flat class = "text-xs-center ma-3"
@@ -140,17 +146,22 @@ export default {
   methods:{
     go_to_github: function (username){
       window.open("https://github.com/"+username)
+     
+    },
+    go_to_li: function (link){
+      window.open("https://www.linkedin.com/in/"+link)
+     
     }
   },
   data(){
     return {
       team: [
-        { name: 'Matthew Dowse', role: 'Front End Lead', github:'MatthewDesmondDowse' },
-        { name: 'Cian Doyle', role: 'Back End Lead', github:'ciandoyle251' },
-        { name: 'Wesley Shaw', role: 'Back End Developer', github:'WesLemon' },
-        { name: 'Laura Golec', role: 'Front End Developer', github: 'goleccc' },
-        { name: 'Pranav Bollina', role: 'Front End Developer', github: 'BollinaPranav'},
-        { name: 'Ross Donnelly', role: 'Client Comms and Documentation', github: 'rdonners'}
+        { name: 'Matthew Dowse', role: 'Front End Lead', github:'MatthewDesmondDowse', linkedin:'williamhgates/' },
+        { name: 'Cian Doyle', role: 'Back End Lead', github:'ciandoyle251', linkedin:'cian-doyle-38b2761bb/' },
+        { name: 'Wesley Shaw', role: 'Back End Developer', github:'WesLemon', linkedin:'williamhgates/' },
+        { name: 'Laura Golec', role: 'Front End Developer', github: 'goleccc', linkedin:'williamhgates/' },
+        { name: 'Pranav Bollina', role: 'Front End Developer', github: 'BollinaPranav', linkedin:'williamhgates/'},
+        { name: 'Ross Donnelly', role: 'Client Comms and Documentation', github: 'rdonners', linkedin: 'ross-donnelly-18a0b5198/'}
       ]
     }
   }
