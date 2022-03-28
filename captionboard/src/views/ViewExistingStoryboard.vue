@@ -65,6 +65,7 @@ export default {
       const storyboardNames = [];
       const imageRefs = [];
       const storyboardDescs = [];
+      // const captions [];
 
       const namesRef = firebase
         .firestore()
@@ -102,6 +103,12 @@ export default {
                   let text = num.toString();
                   let url = storyboard.get(text);
                   images.push(url);
+                  // storyboard.collection("images").doc(text).collection("captions").get()
+                  // .then(function(captions) {
+                  //   captions.doc(nu) 
+                    // Stopped here. Check:
+                    // users -> testID -> storyboard1 -> storyboard2 -> images -> 1 -> captions
+                  // })
                 }
 
                 imageRefs.push(images);
@@ -129,6 +136,7 @@ export default {
       storyboardNames: [],
       imageRefs: [],
       storyboardDescs: [],
+      captions: [],
       show: false,
     };
   },
