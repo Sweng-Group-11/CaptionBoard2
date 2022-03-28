@@ -129,6 +129,7 @@ export default {
       storyboardNames: [],
       imageRefs: [],
       storyboardDescs: [],
+      show: false,
     };
   },
 };
