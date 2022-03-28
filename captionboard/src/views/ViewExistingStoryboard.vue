@@ -4,46 +4,50 @@
 
     <h1>The below images have been downloaded from a sample Storyboard.</h1>
 
-    <div>
-      <div v-for="(image, imageIndex) in imageURLs" :key="imageIndex">
-        <img :src="image" width="20%" height="auto" />
-      </div>
+    <div v-for="(image, imageIndex) in imageURLs" :key="imageIndex">
+      <img :src="image" width="20%" height="auto" />
     </div>
+
   </div>
 </template>
 
 <script>
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
 export default {
   methods: {
-    async showStoryboard() {
+
+    async databaseStoryboard() {
       const imageURLs = [];
 
-      const storageRef = firebase
-        .storage()
-        .ref("storyboards/user1/storyboard1");
-      storageRef
-        .listAll()
-        .then(function (result) {
-          result.items.forEach(function (image) {
-            image.getDownloadURL().then(function (url) {
-              imageURLs.push(url);
-            });
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("testID")
+        .collection("storyboard1")
+        .doc("storyboard1")
+        .get()
+        .then(function (storyboard) {
+          const num_images = storyboard.get("num_images");
+
+          for (let i = 1; i <= num_images; i++) {
+            let num = i;
+            let text = num.toString();
+            let url = storyboard.get(text);
+            imageURLs.push(url);
+          }
         })
         .then(() => {
           this.imageURLs = imageURLs;
-        });
+        })
     },
   },
 
   beforeMount() {
-    this.showStoryboard();
+    this.databaseStoryboard();
   },
 
   data: () => {
