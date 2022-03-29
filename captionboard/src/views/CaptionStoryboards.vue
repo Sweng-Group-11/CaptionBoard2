@@ -14,7 +14,6 @@
             :key="imageIndex"
           >
             <v-card class="mx-auto" max-width="30%">
-             
               <v-img :src="image" height="auto"></v-img>
 
               <v-card-actions>
@@ -60,7 +59,6 @@ export default {
       const storyboardNames = [];
       const storyboardDescs = [];
       const imageRefs = [];
-      const test = [];
 
       namesRef
         .get()
@@ -75,7 +73,6 @@ export default {
               .get()
               .then(function (storyboard) {
                 const num_images = storyboard.get("num_images");
-                test.push(num_images);
                 const images = [];
                 storyboardDescs.push(storyboard.get("storyboard_description"));
 
@@ -95,9 +92,6 @@ export default {
                 imageRefs.push(images);
               });
           }
-        })
-        .then(() => {
-          this.test = test;
         })
         .then(() => {
           this.storyboardNames = storyboardNames;
@@ -120,7 +114,6 @@ export default {
       storyboardNames: [],
       imageRefs: [],
       storyboardDescs: [],
-      test: [],
     };
   },
 };

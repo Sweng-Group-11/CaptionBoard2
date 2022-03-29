@@ -21,7 +21,6 @@
               :key="imageIndex"
             >
               <v-card class="mx-auto" max-width="30%">
-                
                 <v-img :src="image" height="auto"></v-img>
 
                 <v-card-actions>
