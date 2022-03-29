@@ -67,6 +67,10 @@ export default {
     },
   },
 
+  beforeMount() {
+    this.profileType();
+  },
+
   mounted() {
     this.$nextTick(this.profileType);
   },

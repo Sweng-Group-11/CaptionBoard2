@@ -22,8 +22,24 @@
 </template>
 
 <script>
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
 export default {
   name: 'Home-page',
-  components:{}
+  components:{},
+
+  methods: {
+    async checkLoginStatus() {
+      if(firebase.auth().currentUser != null)
+      {
+        this.$router.replace({ name: "dashboard" });
+      }
+    }
+  },
+
+  beforeMount() {
+    this.checkLoginStatus();
+  },
 };
 </script>
