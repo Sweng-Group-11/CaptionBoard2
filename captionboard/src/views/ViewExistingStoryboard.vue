@@ -39,9 +39,13 @@
                   <div v-show="show">
                     <v-divider></v-divider>
 
-                    <v-card-text>
-                      This will be a list of all captions for this image
-                    </v-card-text>
+                    <div
+                      v-for="(caption, captionIndex) in captions[nameIndex][imageIndex]"
+                      :key="captionIndex"
+                    >
+                    {{captionIndex+1}} {{caption}}
+                    </div>
+
                   </div>
                 </v-expand-transition>
               </v-card>
@@ -49,6 +53,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
+      <p>Test: {{ captions[1][2][1] }}</p>
     </div>
   </div>
 </template>
@@ -65,7 +70,8 @@ export default {
       const storyboardNames = [];
       const imageRefs = [];
       const storyboardDescs = [];
-      // const captions [];
+      const allCaptions = [];
+      // const test = [];
 
       const namesRef = firebase
         .firestore()
@@ -80,14 +86,14 @@ export default {
         .doc("testID")
         .collection("storyboard1");
 
-      
+      let i, j, k;
 
       namesRef
         .get()
         .then(function (names) {
           const num_storyboards = names.get("num_storyboards");
 
-          for (let i = 1; i <= num_storyboards; i++) {
+          for (i = 1; i <= num_storyboards; i++) {
             let num = i;
             let text = num.toString();
             let name = names.get(text);
@@ -99,20 +105,38 @@ export default {
                 const num_images = storyboard.get("num_images");
                 const images = [];
                 storyboardDescs.push(storyboard.get("storyboard_description"));
-
-                for (let j = 1; j <= num_images; j++) {
+                const storyboardCaptions = [];
+                for (j = 1; j <= num_images; j++) {
                   let num = j;
                   let text = num.toString();
                   let url = storyboard.get(text);
                   images.push(url);
-                  // storyboard.collection("images").doc(text).collection("captions").get()
-                  // .then(function(captions) {
-                  //   captions.doc(nu) 
-                    // Stopped here. Check:
-                    // users -> testID -> storyboard1 -> storyboard2 -> images -> 1 -> captions
-                  // })
+                  const captionsRef = storyboardsRef
+                    .doc(name)
+                    .collection("images")
+                    .doc(text)
+                    .collection("captions");
+                  captionsRef
+                    .doc("num_captions")
+                    .get()
+                    .then(function (num) {
+                      const num_captions = num.get("num");
+                      const imageCaptions = [];
+                      for (k = 1; k <= num_captions; k++) {
+                        let num = k;
+                        let text = num.toString();
+                        captionsRef
+                          .doc(text)
+                          .get()
+                          .then(function (captions) {
+                            let caption = captions.get("caption");
+                            imageCaptions.push(caption);
+                          });
+                      }
+                      storyboardCaptions.push(imageCaptions);
+                    });
                 }
-
+                allCaptions.push(storyboardCaptions);
                 imageRefs.push(images);
               });
           }
@@ -125,6 +149,9 @@ export default {
         })
         .then(() => {
           this.storyboardDescs = storyboardDescs;
+        })
+        .then(() => {
+          this.captions = allCaptions;
         });
     },
   },
@@ -140,6 +167,7 @@ export default {
       storyboardDescs: [],
       captions: [],
       show: false,
+      test: [],
     };
   },
 };
