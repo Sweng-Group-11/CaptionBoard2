@@ -53,7 +53,6 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-      <p>Test: {{ captions[1][2][1] }}</p>
     </div>
   </div>
 </template>
@@ -71,7 +70,6 @@ export default {
       const imageRefs = [];
       const storyboardDescs = [];
       const allCaptions = [];
-      // const test = [];
 
       const namesRef = firebase
         .firestore()
@@ -106,11 +104,18 @@ export default {
                 const images = [];
                 storyboardDescs.push(storyboard.get("storyboard_description"));
                 const storyboardCaptions = [];
+
                 for (j = 1; j <= num_images; j++) {
+                  const imagesRef = storyboardsRef.doc(name).collection("images");
                   let num = j;
                   let text = num.toString();
-                  let url = storyboard.get(text);
-                  images.push(url);
+                  imagesRef.doc(text).get() 
+                  .then(function (image) {
+                    let url = image.get("url");
+                    images.push(url);
+                  })
+                  // let url = storyboard.get(text);
+                  // images.push(url);
                   const captionsRef = storyboardsRef
                     .doc(name)
                     .collection("images")
