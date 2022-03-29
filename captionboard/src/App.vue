@@ -11,6 +11,9 @@
       <span v-else-if="isFreelancer">
         <navBarFreelancer></navBarFreelancer>
       </span>
+      <span v-else>
+        <navBarGeneral></navBarGeneral>
+      </span>
 
       <!--  Below tag calls whatever view is set as home page '/' in router/index.js and allows for routing between the views/components. -->
       <!--  Seems to be causing the bug that makes every page repeat itself, leaving commented for now as we might need it. -->
@@ -25,11 +28,13 @@
 import TopHeader from "./components/TopHeader.vue";
 import navBarFreelancer from "./components/NavbarFreelancer.vue";
 import navBarAdmin from "./components/NavbarAdmin.vue";
+import navBarGeneral from "./components/NavbarGeneral.vue";
 
 // imports required firebase libraries
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import NavbarGeneral from "./components/NavbarGeneral.vue";
 
 export default {
   // takes components and assigns them variable names for instantiation in the template
@@ -37,7 +42,8 @@ export default {
     "top-header": TopHeader,
     navBarFreelancer: navBarFreelancer,
     navBarAdmin: navBarAdmin,
-  },
+    navBarGeneral: NavbarGeneral
+},
 
   methods: {
     async profileType() {
