@@ -12,7 +12,6 @@
         <v-expansion-panel
           v-for="(name, nameIndex) in storyboardNames"
           :key="nameIndex"
-          max-width="50%"
         >
           <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -21,8 +20,8 @@
               v-for="(image, imageIndex) in imageRefs[nameIndex]"
               :key="imageIndex"
             >
-              <v-card class="mx-auto" max-width="20%">
-                <!-- Thumbnail Image-->
+              <v-card class="mx-auto" max-width="30%">
+                
                 <v-img :src="image" height="auto"></v-img>
 
                 <v-card-actions>
