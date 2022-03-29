@@ -106,10 +106,10 @@ const router = new VueRouter({
 
 //router guard blocking access to any page with the requiresAuth meta tag unless they are a logged in user
 router.beforeEach((to, from, next) => {
-  
+
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  
+
   // let isAdmin = false
   // if(currentUser != null)
   // {
@@ -121,9 +121,8 @@ router.beforeEach((to, from, next) => {
   //   })
   // }
   // const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
-  
-  if (requiresAuth && !currentUser)
-  {
+
+  if (requiresAuth && !currentUser) {
     next('/')
   }
   else next()
