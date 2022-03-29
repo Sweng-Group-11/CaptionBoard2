@@ -2,70 +2,72 @@
   <div class="text-center">
     <div v-if="error" class="error">{{ error.message }}</div>
     <form @submit.prevent="pressed">
-      <fieldset class = "register-form">
+      <fieldset class="register-form">
         <span
           style="
             font-size: 30px;
             text-justify: 15px;
             color: white;
             font-family: 'Ubuntu', sans-serif;
-            
           "
-          >CaptionBoard Register</span>
-        
-      <div class="first_name">
-        <input
-          type="first_name"
-          v-model="first_name"
-          placeholder="First Name"
-          required
-        />
-      </div>
-      <div class="surname">
-        <input
-          type="surname"
-          v-model="surname"
-          placeholder="Last Name"
-          required
-        />
-      </div>
-      <div class="email">
-        <input
-          type="email"
-          v-model="email"
-          placeholder="Email Address"
-          required
-        />
-      </div>
-      <div class="password">
-        <input
-          type="password"
-          v-model="password"
-          placeholder="Password"
-          required
-        />
-      </div>
-      <!-- Drop down menu to select user type -->
-      <!-- Actually returns the index of the user's selection, so 0 for Admin and 1 for Freelancer. -->
-      <div type="User Type Select">
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="black white--text" v-bind="attrs" v-on="on"> User Type </v-btn>
-          </template>
-          <v-list>
-            <v-list-item-group v-model="user_type" required>
-              <v-list-item
-                v-for="(item, index) in items"
-                :key="index"
-                :rules="'Required'"
-              >
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item>
-            </v-list-item-group>
-          </v-list>
-        </v-menu>
-      </div>
-      <v-btn type="submit">Register</v-btn>
+          >CaptionBoard Register</span
+        >
+
+        <div class="first_name">
+          <input
+            type="first_name"
+            v-model="first_name"
+            placeholder="First Name"
+            required
+          />
+        </div>
+        <div class="surname">
+          <input
+            type="surname"
+            v-model="surname"
+            placeholder="Last Name"
+            required
+          />
+        </div>
+        <div class="email">
+          <input
+            type="email"
+            v-model="email"
+            placeholder="Email Address"
+            required
+          />
+        </div>
+        <div class="password">
+          <input
+            type="password"
+            v-model="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <!-- Drop down menu to select user type -->
+        <!-- Actually returns the index of the user's selection, so 0 for Admin and 1 for Freelancer. -->
+        <div type="User Type Select">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="black white--text" v-bind="attrs" v-on="on">
+                User Type
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item-group v-model="user_type" required>
+                <v-list-item
+                  v-for="(item, index) in items"
+                  :key="index"
+                  :rules="'Required'"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-menu>
+        </div>
+        <v-btn type="submit">Register</v-btn>
       </fieldset>
     </form>
   </div>
@@ -136,7 +138,6 @@ export default {
 
 
 <style lang="scss" scoped>
-
 .register-form {
   background-color: rgb(0, 89, 128);
   padding-left: 40px;

@@ -24,11 +24,7 @@
             "
             >Email</label
           >
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-          />
+          <input type="email" id="email" v-model="email" />
         </div>
         <div class="password">
           <label
@@ -95,11 +91,10 @@ export default {
       }
     },
     async checkLoggedIn() {
-      if(firebase.auth().currentUser != null)
-      {
+      if (firebase.auth().currentUser != null) {
         await this.$router.replace({ name: "dashboard" });
       }
-    }
+    },
   },
 };
 </script>

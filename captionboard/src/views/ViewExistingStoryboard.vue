@@ -40,12 +40,13 @@
                     <v-divider></v-divider>
 
                     <div
-                      v-for="(caption, captionIndex) in captions[nameIndex][imageIndex]"
+                      v-for="(caption, captionIndex) in captions[nameIndex][
+                        imageIndex
+                      ]"
                       :key="captionIndex"
                     >
-                    {{captionIndex+1}} {{caption}}
+                      {{ captionIndex + 1 }} {{ caption }}
                     </div>
-
                   </div>
                 </v-expand-transition>
               </v-card>
@@ -106,14 +107,18 @@ export default {
                 const storyboardCaptions = [];
 
                 for (j = 1; j <= num_images; j++) {
-                  const imagesRef = storyboardsRef.doc(name).collection("images");
+                  const imagesRef = storyboardsRef
+                    .doc(name)
+                    .collection("images");
                   let num = j;
                   let text = num.toString();
-                  imagesRef.doc(text).get() 
-                  .then(function (image) {
-                    let url = image.get("url");
-                    images.push(url);
-                  })
+                  imagesRef
+                    .doc(text)
+                    .get()
+                    .then(function (image) {
+                      let url = image.get("url");
+                      images.push(url);
+                    });
                   // let url = storyboard.get(text);
                   // images.push(url);
                   const captionsRef = storyboardsRef

@@ -15,7 +15,6 @@
       <!--  Below tag calls whatever view is set as home page '/' in router/index.js and allows for routing between the views/components. -->
       <!--  Seems to be causing the bug that makes every page repeat itself, leaving commented for now as we might need it. -->
       <!-- <router-view :key="$route.path"></router-view> -->
-
     </v-main>
   </v-app>
 </template>
@@ -41,29 +40,26 @@ export default {
 
   methods: {
     async profileType() {
-
-      if(firebase.auth().currentUser == null)
-      {
+      if (firebase.auth().currentUser == null) {
         this.isAdmin = false;
         this.isFreelancer = false;
-      }
-      else
-      firebase
-        .firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .get()
-        .then((ds) => {
-          if (ds.get("user_type") == 0) {
-            this.isAdmin = true;
-            this.isFreelancer = false;
-          } else if (ds.get("user_type") == 1) {
-            this.isAdmin = false;
-            this.isFreelancer = true;
-          } else {
-            alert("");
-          }
-        });
+      } else
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .get()
+          .then((ds) => {
+            if (ds.get("user_type") == 0) {
+              this.isAdmin = true;
+              this.isFreelancer = false;
+            } else if (ds.get("user_type") == 1) {
+              this.isAdmin = false;
+              this.isFreelancer = true;
+            } else {
+              alert("");
+            }
+          });
     },
   },
 

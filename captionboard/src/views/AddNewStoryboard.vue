@@ -29,11 +29,12 @@
           </v-col>
 
           <v-col cols="12">
-            <v-textarea 
-            v-model="form.description" 
-            :rules="rules.description" 
-            color="blue" 
-            srequired>
+            <v-textarea
+              v-model="form.description"
+              :rules="rules.description"
+              color="blue"
+              srequired
+            >
               <template v-slot:label>
                 <div>
                   Description of Storyboard
@@ -115,7 +116,9 @@ export default {
         time: [],
         animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
-        description: [(val) => (val || "").length > 0 || "This field is required"]
+        description: [
+          (val) => (val || "").length > 0 || "This field is required",
+        ],
       },
       animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,

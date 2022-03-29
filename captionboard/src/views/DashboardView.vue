@@ -16,9 +16,9 @@ import "firebase/compat/firestore";
 export default {
   methods: {
     async getUsername() {
-      await firebase.auth().currentUser.displayName; 
+      await firebase.auth().currentUser.displayName;
       this.username = firebase.auth().currentUser.displayName;
-    }
+    },
   },
 
   mounted() {
@@ -32,10 +32,10 @@ export default {
   updated() {
     this.$nextTick(this.getUsername);
   },
-  
+
   data() {
     return {
-      username: "error"
+      username: "error",
     };
   },
 };
