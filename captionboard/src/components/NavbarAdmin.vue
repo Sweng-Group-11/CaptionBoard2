@@ -1,28 +1,25 @@
 <template>
-  <v-app>
-    <v-main>
-      <div id="nav">
-        <fieldset class="navBarAdmin">
-          <router-link to="/dashboard">
-            <button class="navbarButton">User Dashboard</button>
-          </router-link>
-          <router-link to="/existingStoryboard">
-            <button class="navbarButton">View Existing Storyboards</button>
-          </router-link>
-          <router-link to="/addNewStoryboard">
-            <button class="navbarButton">Add New Storyboards</button>
-          </router-link>
-          <router-link to="/accountSettings">
-            <button class="navbarButton">Account Settings</button>
-          </router-link>
-          <router-link to="/about">
-            <button class="navbarButton">About Us</button>
-          </router-link>
-        </fieldset>
-      </div>
-      <router-view :key="$route.path"></router-view>
-    </v-main>
-  </v-app>
+  <v-main>
+    <div id="nav">
+      <fieldset class="navBarAdmin">
+        <router-link to="/dashboard">
+          <button class="navbarButton">User Dashboard</button>
+        </router-link>
+        <router-link to="/existingStoryboard">
+          <button class="navbarButton">View Existing Storyboards</button>
+        </router-link>
+        <router-link to="/addNewStoryboard">
+          <button class="navbarButton">Add New Storyboards</button>
+        </router-link>
+        <router-link to="/accountSettings">
+          <button class="navbarButton">Account Settings</button>
+        </router-link>
+        <router-link to="/about">
+          <button class="navbarButton">About Us</button>
+        </router-link>
+      </fieldset>
+    </div>
+  </v-main>
 </template>
 
 <script>
