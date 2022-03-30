@@ -30,7 +30,9 @@
                       @blur="$v.caption.$touch()"
                     ></v-text-field>
 
-                    <v-btn class="mr-4" @click="submit"> submit </v-btn>
+                    <v-btn class="mr-4" @click="submit(name, imageIndex+1)">
+                      submit
+                    </v-btn>
                     <v-btn @click="clear"> clear </v-btn>
                   </form>
                   <p>{{ test }}</p>
@@ -44,6 +46,9 @@
     </v-expansion-panels>
   </div>
 </template>
+
+<style scoped>
+</style>
 
 <script>
 import firebase from "firebase/compat/app";
@@ -72,45 +77,61 @@ export default {
   },
 
   methods: {
-    submit() {
+    submit(name, image) {
       this.$v.$touch();
       if (this.caption != "") {
         const caption = this.caption;
-        const name = this.storyboard_name;
+        let admin_id = "noID";
+        //const imageURL = this.imageRefs[nameIndex][image];
 
-        alert(name);
-        this.test = this.caption;
         const numRef = firebase
-        .firestore()
-        .collection("users")
-        .doc("testID")
-        .collection("captions")
-        .doc("num_captions");
-
-      numRef.get().then(function (number) {
-        let num_captions = number.get("num");
-        num_captions++;
-        numRef.set({
-          num: num_captions,
-        });
-
-        const num = num_captions.toString();
-
-        firebase
           .firestore()
           .collection("users")
           .doc("testID")
           .collection("captions")
-          .doc(num)
-          .set({
-            caption: caption,
-            admin_id: "testID",
+          .doc("num_captions");
 
+        const storyboardRef = firebase
+          .firestore()
+          .collection("storyboards")
+          .doc(name);
+
+        // const imagesRef = firebase
+        //   .firestore()
+        //   .collection("storyboards")
+        //   .doc(name)
+        //   .collection("images")
+        //   .doc(image);
+
+        storyboardRef.get().then(function (storyboard) {
+          admin_id = storyboard.get("admin_id");
+        })
+
+        numRef.get().then(function (number) {
+          let num_captions = number.get("num");
+          num_captions++;
+          numRef.set({
+            num: num_captions,
           });
-      });
-      }
 
-      
+          const num = num_captions.toString();
+
+          firebase
+            .firestore()
+            .collection("users")
+            .doc("testID")
+            .collection("captions")
+            .doc(num)
+            .set({
+              caption: caption,
+              admin_id: admin_id,
+              picture: image,
+              storyboard_name: name,
+              selected: false,
+            });
+        })
+        this.clear();
+      }
     },
     clear() {
       this.$v.$reset();
@@ -190,5 +211,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+
