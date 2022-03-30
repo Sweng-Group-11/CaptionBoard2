@@ -8,7 +8,7 @@
       >
         <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
         <v-expansion-panel-content>
-          <div>Company name:</div>
+          <div>Company name: {{ companyNames[nameIndex] }}</div>
           <div>Description: {{ storyboardDescs[nameIndex] }}</div>
           <div
             v-for="(image, imageIndex) in imageRefs[nameIndex]"
@@ -30,12 +30,11 @@
                       @blur="$v.caption.$touch()"
                     ></v-text-field>
 
-                    <v-btn class="mr-4" @click="submit(name, imageIndex+1)">
+                    <v-btn class="mr-4" @click="submit(name, imageIndex + 1)">
                       submit
                     </v-btn>
                     <v-btn @click="clear"> clear </v-btn>
                   </form>
-                  <p>{{ test }}</p>
                 </div>
                 <v-spacer></v-spacer>
               </v-card-actions>
@@ -82,7 +81,6 @@ export default {
       if (this.caption != "") {
         const caption = this.caption;
         let admin_id = "noID";
-        //const imageURL = this.imageRefs[nameIndex][image];
 
         const numRef = firebase
           .firestore()
@@ -96,16 +94,61 @@ export default {
           .collection("storyboards")
           .doc(name);
 
-        // const imagesRef = firebase
-        //   .firestore()
-        //   .collection("storyboards")
-        //   .doc(name)
-        //   .collection("images")
-        //   .doc(image);
+        storyboardRef
+          .get()
+          .then(function (storyboard) {
+            admin_id = storyboard.get("admin_id");
+          })
+          .then(() => {
 
-        storyboardRef.get().then(function (storyboard) {
-          admin_id = storyboard.get("admin_id");
-        })
+            firebase
+              .firestore()
+              .collection("users")
+              .doc("testID")
+              .collection("storyboard1") //change to storyboards when uploading is finished
+              .doc("storyboard1")
+              .collection("images")
+              .doc("1")
+              .collection("captions")
+              .doc("num_captions")
+              .get().then(function (num) {
+              let num_captions = num.get("num");
+              
+              num_captions++;
+              alert(num_captions);
+              firebase
+              .firestore()
+              .collection("users")
+              .doc(admin_id)
+              .collection("storyboard1") //change to storyboards when uploading is finished
+              .doc(name)
+              .collection("images")
+              .doc(image.toString())
+              .collection("captions")
+              .doc("num_captions")
+              .set({
+                num: num_captions,
+              });
+
+              const numString = num_captions.toString();
+
+              firebase
+                .firestore()
+                .collection("users")
+                .doc(admin_id)
+                .collection("storyboard1") //change to "storyboards" when uploading is finished
+                .doc(name)
+                .collection("images")
+                .doc(image.toString())
+                .collection("captions")
+                .doc(numString)
+                .set({
+                  caption: caption,
+                  selected: false,
+                  uid: firebase.auth().currentUser.uid,
+                });
+            });
+          });
 
         numRef.get().then(function (number) {
           let num_captions = number.get("num");
@@ -129,7 +172,7 @@ export default {
               storyboard_name: name,
               selected: false,
             });
-        })
+        });
         this.clear();
       }
     },
@@ -148,6 +191,7 @@ export default {
       const storyboardNames = [];
       const storyboardDescs = [];
       const imageRefs = [];
+      const companyNames = [];
 
       namesRef
         .get()
@@ -164,6 +208,7 @@ export default {
                 const num_images = storyboard.get("num_images");
                 const images = [];
                 storyboardDescs.push(storyboard.get("storyboard_description"));
+                companyNames.push(storyboard.get("company_name"));
 
                 for (let j = 1; j <= num_images; j++) {
                   const imagesRef = storyboardRefs
@@ -190,6 +235,9 @@ export default {
         })
         .then(() => {
           this.imageRefs = imageRefs;
+        })
+        .then(() => {
+          this.companyNames = companyNames;
         });
     },
   },
@@ -206,6 +254,7 @@ export default {
       caption: "",
       test: "empty",
       storyboard_name: "",
+      companyNames: [],
     };
   },
 };

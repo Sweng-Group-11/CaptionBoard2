@@ -109,6 +109,28 @@ export default {
                 user_type: this.user_type,
               });
           })
+          .then(() => {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(firebase.auth().currentUser.uid)
+              .collection("storyboards")
+              .doc("storyboard_names")
+              .set({
+                num_storyboards: 0
+              });
+          })
+          .then(() => {
+            firebase
+              .firestore()
+              .collection("users")
+              .doc(firebase.auth().currentUser.uid)
+              .collection("captions")
+              .doc("num_captions")
+              .set({
+                num: 0
+              });
+          })
           //sends the user to the dashboard view
           .then(() => {
             this.$router.replace({ name: "dashboard" });
