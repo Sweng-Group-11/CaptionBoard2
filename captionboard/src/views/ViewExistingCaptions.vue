@@ -13,8 +13,8 @@
           {{ name }}
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <v-card max-width="344">
-            <v-img :src="images[nameIndex]" height="200px"></v-img>
+          <v-card max-width="30%">
+            <v-img :src="images[nameIndex]" height="auto"></v-img>
 
             <v-card-actions>
               <div class="blue--text">{{ captions[nameIndex] }}</div>

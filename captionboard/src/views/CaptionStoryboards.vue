@@ -21,7 +21,7 @@
             v-for="(image, imageIndex) in imageRefs[nameIndex]"
             :key="imageIndex"
           >
-            <v-card class="mx-auto" max-width="250">
+            <v-card class="mx-auto" max-width="30%">
               <v-img :src="image" height="auto"></v-img>
               <p></p>
               <v-card-actions>
@@ -129,7 +129,6 @@ export default {
                 let num_captions = num.get("num");
 
                 num_captions++;
-                alert(num_captions);
                 firebase
                   .firestore()
                   .collection("users")
