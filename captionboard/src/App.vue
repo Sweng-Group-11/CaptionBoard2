@@ -28,13 +28,12 @@
 import TopHeader from "./components/TopHeader.vue";
 import navBarFreelancer from "./components/NavbarFreelancer.vue";
 import navBarAdmin from "./components/NavbarAdmin.vue";
-import navBarGeneral from "./components/NavbarGeneral.vue";
+import NavbarGeneral from "./components/NavbarGeneral.vue";
 
 // imports required firebase libraries
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
-import NavbarGeneral from "./components/NavbarGeneral.vue";
 
 export default {
   // takes components and assigns them variable names for instantiation in the template
