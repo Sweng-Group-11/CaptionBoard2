@@ -1,3 +1,7 @@
+// This page allows an Admin to view all of the storyboards that they have uploaded so far.
+// It also allows them to view all of the captions that have been posted by freelancers, and
+// it will also allow them to select their favourite caption for each image.
+
 <template>
   <div>
     <v-spacer></v-spacer>
@@ -73,15 +77,15 @@ export default {
       const namesRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID")
-        .collection("storyboard1")
+        .doc("testID") // change to currentUser.uid
+        .collection("storyboard1") // change to "storyboards"
         .doc("storyboard_names");
 
       const storyboardsRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID")
-        .collection("storyboard1");
+        .doc("testID") // change to currentUser.uid
+        .collection("storyboard1"); // change to "storyboards"
 
       let i, j, k;
 
@@ -117,8 +121,6 @@ export default {
                       let url = image.get("url");
                       images.push(url);
                     });
-                  // let url = storyboard.get(text);
-                  // images.push(url);
                   const captionsRef = storyboardsRef
                     .doc(name)
                     .collection("images")
@@ -175,7 +177,6 @@ export default {
       storyboardDescs: [],
       captions: [],
       show: false,
-      test: [],
     };
   },
 };

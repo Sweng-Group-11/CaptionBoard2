@@ -1,3 +1,5 @@
+// NavBar component that is only displayed when the current user is a Freelancer..
+
 <template>
   <div id="nav">
     <fieldset class="navBarFreelancer">

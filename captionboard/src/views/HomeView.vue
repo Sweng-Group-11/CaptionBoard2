@@ -1,3 +1,5 @@
+// This is a landing page for users that are not currently logged in.
+
 <template>
   <div
     style="text-align: center; color: black; font-family: 'Ubuntu', sans-serif"

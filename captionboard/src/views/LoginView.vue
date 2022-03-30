@@ -1,3 +1,4 @@
+// This is the page that allows users to login to the app.
 
 <template>
   <div

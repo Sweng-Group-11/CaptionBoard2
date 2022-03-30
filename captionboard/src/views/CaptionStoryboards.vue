@@ -1,15 +1,22 @@
+// View that allows the Freelancer to caption any storyboard that has been uplaoded by any Admin.
+
 <template>
   <div>
+    <!-- The expansion panels are the drop down menus -->
     <v-expansion-panels accordion>
+      <!-- The below for loop gets all the storyboard names and creates a new drop down menu for each storyboard -->
       <v-expansion-panel
         v-for="(name, nameIndex) in storyboardNames"
         :key="nameIndex"
-        v-model="storyboard_name"
       >
         <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
         <v-expansion-panel-content>
+          <!-- The variables in curly brackets are arrays that are filled in the script tag. -->
           <div>Company name: {{ companyNames[nameIndex] }}</div>
           <div>Description: {{ storyboardDescs[nameIndex] }}</div>
+
+          <!-- The for loop below takes the number of images calculated in the script and populates the drop down
+          menu with all the images for the associated storyboard. -->
           <div
             v-for="(image, imageIndex) in imageRefs[nameIndex]"
             :key="imageIndex"
@@ -20,6 +27,9 @@
               <v-card-actions>
                 <div class="blue--text">
                   <form>
+                    <!-- Change 'counter' for the little number under the text-field, but this doesn't actually 
+                    change the required length. That's changed in the script. The 'label' is what appears in the
+                    blank box, and also above the text box when you are typing. -->
                     <v-text-field
                       v-model="caption"
                       :error-messages="captionErrors"
@@ -30,9 +40,12 @@
                       @blur="$v.caption.$touch()"
                     ></v-text-field>
 
+                    <!-- Submit Button -->
                     <v-btn class="mr-4" @click="submit(name, imageIndex + 1)">
                       submit
                     </v-btn>
+
+                    <!-- Clear Button -->
                     <v-btn @click="clear"> clear </v-btn>
                   </form>
                 </div>
@@ -60,6 +73,7 @@ import { required, maxLength } from "vuelidate/lib/validators";
 export default {
   mixins: [validationMixin],
 
+  // Change the value in maxLength() if you want longer/shorter captions to be allowed.
   validations: {
     caption: { required, maxLength: maxLength(100) },
   },
@@ -85,7 +99,7 @@ export default {
         const numRef = firebase
           .firestore()
           .collection("users")
-          .doc("testID")
+          .doc("testID") // change to currentUser.uid when uploading is finished
           .collection("captions")
           .doc("num_captions");
 
@@ -100,54 +114,54 @@ export default {
             admin_id = storyboard.get("admin_id");
           })
           .then(() => {
-
             firebase
               .firestore()
               .collection("users")
-              .doc("testID")
-              .collection("storyboard1") //change to storyboards when uploading is finished
-              .doc("storyboard1")
-              .collection("images")
-              .doc("1")
-              .collection("captions")
-              .doc("num_captions")
-              .get().then(function (num) {
-              let num_captions = num.get("num");
-              
-              num_captions++;
-              alert(num_captions);
-              firebase
-              .firestore()
-              .collection("users")
-              .doc(admin_id)
-              .collection("storyboard1") //change to storyboards when uploading is finished
+              .doc(admin_id) 
+              .collection("storyboard1") //change to "storyboards" when uploading is finished
               .doc(name)
               .collection("images")
               .doc(image.toString())
               .collection("captions")
               .doc("num_captions")
-              .set({
-                num: num_captions,
+              .get()
+              .then(function (num) {
+                let num_captions = num.get("num");
+
+                num_captions++;
+                alert(num_captions);
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(admin_id)
+                  .collection("storyboard1") //change to "storyboards" when uploading is finished
+                  .doc(name)
+                  .collection("images")
+                  .doc(image.toString())
+                  .collection("captions")
+                  .doc("num_captions")
+                  .set({
+                    num: num_captions,
+                  });
+
+                const numString = num_captions.toString();
+
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(admin_id)
+                  .collection("storyboard1") //change to "storyboards" when uploading is finished
+                  .doc(name)
+                  .collection("images")
+                  .doc(image.toString())
+                  .collection("captions")
+                  .doc(numString)
+                  .set({
+                    caption: caption,
+                    selected: false,
+                    uid: firebase.auth().currentUser.uid,
+                  });
               });
-
-              const numString = num_captions.toString();
-
-              firebase
-                .firestore()
-                .collection("users")
-                .doc(admin_id)
-                .collection("storyboard1") //change to "storyboards" when uploading is finished
-                .doc(name)
-                .collection("images")
-                .doc(image.toString())
-                .collection("captions")
-                .doc(numString)
-                .set({
-                  caption: caption,
-                  selected: false,
-                  uid: firebase.auth().currentUser.uid,
-                });
-            });
           });
 
         numRef.get().then(function (number) {
@@ -162,7 +176,7 @@ export default {
           firebase
             .firestore()
             .collection("users")
-            .doc("testID")
+            .doc("testID") // set to currentUser.uid when uploading is finished
             .collection("captions")
             .doc(num)
             .set({
@@ -252,8 +266,6 @@ export default {
       imageRefs: [],
       storyboardDescs: [],
       caption: "",
-      test: "empty",
-      storyboard_name: "",
       companyNames: [],
     };
   },

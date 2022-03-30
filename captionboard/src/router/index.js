@@ -1,3 +1,6 @@
+// JavaScript file detailing the routr details for the app, which allows the different
+// views of the app to communicate with one another.
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -109,18 +112,6 @@ router.beforeEach((to, from, next) => {
 
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
-  // let isAdmin = false
-  // if(currentUser != null)
-  // {
-  //     firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get()
-  //   .then((ds) => {
-  //     if (ds.get("user_type") == 0) {
-  //       isAdmin = true;
-  //     }
-  //   })
-  // }
-  // const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
 
   if (requiresAuth && !currentUser) {
     next('/')

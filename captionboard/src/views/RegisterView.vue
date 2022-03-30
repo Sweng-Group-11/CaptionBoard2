@@ -1,3 +1,5 @@
+//  This is the page that allows users to register for the app.
+
 <template>
   <div class="text-center">
     <div v-if="error" class="error">{{ error.message }}</div>

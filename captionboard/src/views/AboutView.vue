@@ -1,3 +1,5 @@
+// A view for the app that displays information about the app as well as information
+// about our team and also about our client.
 
 <template>
   <div class="about">

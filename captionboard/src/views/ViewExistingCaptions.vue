@@ -1,3 +1,7 @@
+ // This page allows freelancers to view all of the captions that they have posted to 
+ // any storyboard on the app, and it will also tell the Freelancer if their caption
+ // has been selected by an Admin.
+ 
  <template>
   <div>
     <v-expansion-panels accordion>

@@ -16,7 +16,6 @@ import "firebase/compat/firestore";
 export default {
   methods: {
     async getUsername() {
-      await firebase.auth().currentUser.displayName;
       this.username = firebase.auth().currentUser.displayName;
     },
   },

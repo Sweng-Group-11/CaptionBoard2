@@ -1,3 +1,5 @@
+// Page that displays the current user's account information and also allows the 
+// user to edit that information or even delete their account.
 
 <template>
   <div id="user">

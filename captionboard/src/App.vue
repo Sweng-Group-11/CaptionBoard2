@@ -1,3 +1,6 @@
+// This is the main app that essentially allows the entire app to run. It is responsible for routing
+// and displaying all of the pages and also the components on the page.
+
 <template>
   <v-app>
     <v-main>
@@ -12,8 +15,8 @@
         <navBarFreelancer></navBarFreelancer>
       </span>
 
-      <!--  Below tag calls whatever view is set as home page '/' in router/index.js and allows for routing between the views/components. -->
-      <!--  Seems to be causing the bug that makes every page repeat itself, leaving commented for now as we might need it. -->
+      <!--  The below line is required to display the other views of the page. The app will not work
+            without it and if it is repeated anywhere then the pages will also repeat. -->
       <router-view :key="$route.path"></router-view>
     </v-main>
   </v-app>

@@ -1,3 +1,5 @@
+// NavBar component that is only displayed when the current user is an Admin.
+
 <template>
   <v-main>
     <div id="nav">
