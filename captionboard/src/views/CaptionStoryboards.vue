@@ -99,7 +99,7 @@ export default {
         const numRef = firebase
           .firestore()
           .collection("users")
-          .doc("testID") // change to currentUser.uid when uploading is finished
+          .doc(firebase.auth().currentUser.uid) // change to currentUser.uid when uploading is finished
           .collection("captions")
           .doc("num_captions");
 
@@ -118,7 +118,7 @@ export default {
               .firestore()
               .collection("users")
               .doc(admin_id) 
-              .collection("storyboard1") //change to "storyboards" when uploading is finished
+              .collection("storyboards") //change to "storyboards" when uploading is finished
               .doc(name)
               .collection("images")
               .doc(image.toString())
@@ -133,7 +133,7 @@ export default {
                   .firestore()
                   .collection("users")
                   .doc(admin_id)
-                  .collection("storyboard1") //change to "storyboards" when uploading is finished
+                  .collection("storyboards") //change to "storyboards" when uploading is finished
                   .doc(name)
                   .collection("images")
                   .doc(image.toString())
@@ -149,7 +149,7 @@ export default {
                   .firestore()
                   .collection("users")
                   .doc(admin_id)
-                  .collection("storyboard1") //change to "storyboards" when uploading is finished
+                  .collection("storyboards") //change to "storyboards" when uploading is finished
                   .doc(name)
                   .collection("images")
                   .doc(image.toString())
@@ -175,7 +175,7 @@ export default {
           firebase
             .firestore()
             .collection("users")
-            .doc("testID") // set to currentUser.uid when uploading is finished
+            .doc(firebase.auth().currentUser.uid) // set to currentUser.uid when uploading is finished
             .collection("captions")
             .doc(num)
             .set({

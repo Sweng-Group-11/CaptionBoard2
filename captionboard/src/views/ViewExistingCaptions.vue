@@ -38,13 +38,13 @@ export default {
       const captionsRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID")
+        .doc(firebase.auth().currentUser.uid)
         .collection("captions");
 
       const numRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID")
+        .doc(firebase.auth().currentUser.uid)
         .collection("captions")
         .doc("num_captions");
 
@@ -80,7 +80,7 @@ export default {
                   .firestore()
                   .collection("users")
                   .doc(admin)
-                  .collection("storyboard1")
+                  .collection("storyboards")
                   .doc(sb_name)
                   .collection("images")
                   .doc(picture.toString());
