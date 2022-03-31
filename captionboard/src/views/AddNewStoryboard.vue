@@ -69,6 +69,7 @@
               min="1"
               max="30"
               thumb-label
+              @change="getSliderVal"
             ></v-slider>
           </v-col>
         </v-row>
@@ -118,6 +119,7 @@ export default {
       terms: false,
       defaultForm,
       imageData: [],
+      seconds_per_image: 0
     };
   },
 
@@ -136,6 +138,10 @@ export default {
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
       this.$refs.form.reset();
+    },
+    getSliderVal(number){
+      this.seconds_per_image = number
+      console.log(this.seconds_per_image)
     },
     submit() {
       this.snackbar = true;
@@ -158,18 +164,18 @@ export default {
         for(let i = 0; i < this.imageData.length; i++){
           firebase.storage().ref('storyboards/'+ firebase.auth().currentUser.uid + '/' + this.form.storyboardName + '/'+ this.imageData[i].name).put(this.imageData[i]);
         }
-        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).set({
-          company_name: this.form.storyboardNam,
+        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).set({
+          company_name: this.form.companyName,
           num_images: this.imageData.length,
-          seconds_per_image: 10,
-          storyboard_description: this.form.bio,
-          storyboard_name: this.form.first})
+          seconds_per_image: this.seconds_per_image,
+          storyboard_description: this.form.description,
+          storyboard_name: this.form.storyboardName})
 
         for(let j = 0; j < this.imageData.length; j++){
 
 
           let imgNum = j.toString()
-          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).collection("images").doc(imgNum).set({url: null})
+          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: null})
 
         // const storage = getStorage();
         // getDownloadURL(ref(storage, 'storyboards/'+ 's1mORuy3WBNrdzwVpp3n7Z7HTKX2/' + 'here/' + 'lucid.jpg'))
