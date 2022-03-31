@@ -47,7 +47,9 @@
           </v-col>
 
           <v-col cols="12">
-            <v-btn> Upload Images Here </v-btn>
+            <v-btn @click="onPickFile"> Upload Images Here </v-btn>
+            <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
+
             <v-checkbox v-model="form.terms" color="green">
               <template v-slot:label>
                 <div @click.stop="">
@@ -76,7 +78,7 @@
       <v-card-actions>
         <v-btn text @click="resetForm"> Cancel </v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!formIsValid" text color="primary" type="submit">
+        <v-btn :disabled="!formIsValid" text color="primary" type="submit" @click="onUpload">
           Submit Storyboard
         </v-btn>
       </v-card-actions>
@@ -85,6 +87,10 @@
 </template>
 
 <script>
+  import firebase from "firebase/compat/app"
+  import "firebase/compat/storage"
+  //import { getStorage, ref, getDownloadURL } from "firebase/storage";
+  import "firebase/compat/auth";
 export default {
   data() {
     const defaultForm = Object.freeze({
@@ -111,6 +117,7 @@ export default {
       snackbar: false,
       terms: false,
       defaultForm,
+      imageData: [],
     };
   },
 
@@ -134,6 +141,51 @@ export default {
       this.snackbar = true;
       this.resetForm();
     },
+          onPickFile(){
+        this.$refs.fileInput.click()
+      },
+
+      onFilePicked(event){
+        const files = event.target.files
+        this.imageData = files
+      },
+
+
+      changeThis(url){
+        this.htmlURL = url
+      },
+      onUpload(){
+        for(let i = 0; i < this.imageData.length; i++){
+          firebase.storage().ref('storyboards/'+ firebase.auth().currentUser.uid + '/' + this.form.storyboardName + '/'+ this.imageData[i].name).put(this.imageData[i]);
+        }
+        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).set({
+          company_name: this.form.storyboardNam,
+          num_images: this.imageData.length,
+          seconds_per_image: 10,
+          storyboard_description: this.form.bio,
+          storyboard_name: this.form.first})
+
+        for(let j = 0; j < this.imageData.length; j++){
+
+
+          let imgNum = j.toString()
+          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).collection("images").doc(imgNum).set({url: null})
+
+        // const storage = getStorage();
+        // getDownloadURL(ref(storage, 'storyboards/'+ 's1mORuy3WBNrdzwVpp3n7Z7HTKX2/' + 'here/' + 'lucid.jpg'))
+        // .then((outputURL) => {
+        //   firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).collection("images").doc(imgNum).set({
+        //     url: outputURL})
+        // })
+
+        // .catch(() => {
+        //   alert("catching error")
+        // });
+
+        }
+
+      },
+    
   },
 };
 </script>
