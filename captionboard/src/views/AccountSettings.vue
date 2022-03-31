@@ -1,22 +1,16 @@
+// Page that displays the current user's account information and also allows the 
+// user to edit that information or even delete their account.
 
 <template>
   <div id="user">
-    <p
-    >Username: {{ username }}
-    </p>
+    <p>Username: {{ username }}</p>
 
-    <p>
-        Email: 
-    </p>
+    <p>Email:</p>
 
-    <p> 
-        Usertype:
-    </p>    
-
+    <p>Usertype:</p>
   </div>
- <!-- Same Process as above ^ just need Usertype to display if 
+  <!-- Same Process as above ^ just need Usertype to display if 
         user is an admin or freelancer, -->
-
 </template>
 
 

@@ -1,3 +1,4 @@
+// This is the page that allows users to login to the app.
 
 <template>
   <div
@@ -24,11 +25,7 @@
             "
             >Email</label
           >
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-          />
+          <input type="email" id="email" v-model="email" />
         </div>
         <div class="password">
           <label
@@ -68,6 +65,19 @@ export default {
       loggedIn: false,
     };
   },
+
+  mounted() {
+    this.$nextTick(this.checkLoggedIn);
+  },
+
+  beforeUpdate() {
+    this.$nextTick(this.checkLoggedIn);
+  },
+
+  updated() {
+    this.$nextTick(this.checkLoggedIn);
+  },
+
   methods: {
     // method preventing submission unless firebase authenticates the login details
     async pressed() {
@@ -79,6 +89,11 @@ export default {
         await this.$router.replace({ name: "dashboard" });
       } catch (err) {
         console.log(err);
+      }
+    },
+    async checkLoggedIn() {
+      if (firebase.auth().currentUser != null) {
+        await this.$router.replace({ name: "dashboard" });
       }
     },
   },

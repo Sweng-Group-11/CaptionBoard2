@@ -1,6 +1,8 @@
+// This view allows an Admin to add a new storyboard.
+
 <template>
   <v-card flat>
-    <!-- Success Popup after regiterting -->
+    <!-- Success Popup after uploading a storyboard -->
     <v-snackbar v-model="snackbar" absolute top right color="success">
       <span>Storyboard Succesfully Uploaded!</span>
       <v-icon dark> mdi-checkbox-marked-circle </v-icon>
@@ -29,11 +31,12 @@
           </v-col>
 
           <v-col cols="12">
-            <v-textarea 
-            v-model="form.description" 
-            :rules="rules.description" 
-            color="blue" 
-            srequired>
+            <v-textarea
+              v-model="form.description"
+              :rules="rules.description"
+              color="blue"
+              srequired
+            >
               <template v-slot:label>
                 <div>
                   Description of Storyboard
@@ -54,23 +57,7 @@
             </v-checkbox>
           </v-col>
 
-          <!-- Favourite Animal Drop Down 
-          <v-col
-            cols="12"
-            sm="6"
-          >
-            <v-select
-              v-model="form.favoriteAnimal"
-              :items="animals"
-              :rules="rules.animal"
-              color="pink"
-              label="Favorite animal"
-              required
-            ></v-select>
-          </v-col>
--->
-
-          <!-- Slider for Time (was Age)-->
+          <!-- Slider for Time -->
           <v-col cols="12" sm="6">
             <v-slider
               v-model="form.time"
@@ -115,7 +102,9 @@ export default {
         time: [],
         animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
-        description: [(val) => (val || "").length > 0 || "This field is required"]
+        description: [
+          (val) => (val || "").length > 0 || "This field is required",
+        ],
       },
       animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,
@@ -131,7 +120,6 @@ export default {
         this.form.storyboardName &&
         this.form.companyName &&
         this.form.description &&
-        //   this.form.favoriteAnimal &&
         this.form.terms
       );
     },

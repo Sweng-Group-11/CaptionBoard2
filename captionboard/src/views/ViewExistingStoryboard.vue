@@ -1,81 +1,184 @@
+// This page allows an Admin to view all of the storyboards that they have uploaded so far.
+// It also allows them to view all of the captions that have been posted by freelancers, and
+// it will also allow them to select their favourite caption for each image.
+
 <template>
   <div>
-    <v-expansion-panels accordion>
-      <v-expansion-panel v-for="(item, i) in 5" :key="i">
-        <v-expansion-panel-header> Storyboard Name </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <div class="blue--text">Description:</div>
+    <v-spacer></v-spacer>
 
-          <v-card max-width="344">
-            <!-- Thumbnail Image-->
-            <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-              height="200px"
-            ></v-img>
+    <h1>
+      The below images have been successfully downloaded from the backend
+      database.
+    </h1>
 
-            <v-card-actions>
-              <div class="blue--text">Captions for this Image</div>
+    <div>
+      <v-expansion-panels accordion>
+        <v-expansion-panel
+          v-for="(name, nameIndex) in storyboardNames"
+          :key="nameIndex"
+        >
+          <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <p>{{ storyboardDescs[nameIndex] }}</p>
+            <div
+              v-for="(image, imageIndex) in imageRefs[nameIndex]"
+              :key="imageIndex"
+            >
+              <v-card class="mx-auto" max-width="30%">
+                <v-img :src="image" height="auto"></v-img>
 
-              <v-spacer></v-spacer>
+                <v-card-actions>
+                  <div class="blue--text">Captions for this Image</div>
 
-              <v-btn icon @click="show = !show">
-                <v-icon>{{
-                  show ? "mdi-chevron-up" : "mdi-chevron-down"
-                }}</v-icon>
-              </v-btn>
-            </v-card-actions>
+                  <v-btn icon @click="show = !show">
+                    <v-icon>
+                      {{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                    </v-icon>
+                  </v-btn>
+                </v-card-actions>
 
-            <v-expand-transition>
-              <div v-show="show">
-                <v-divider></v-divider>
+                <v-expand-transition>
+                  <div v-show="show">
+                    <v-divider></v-divider>
 
-                <v-card-text>
-                  This will be a list of all captions for this image
-                </v-card-text>
-              </div>
-            </v-expand-transition>
-          </v-card>
-
-          <!-- Insert Images -->
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-
-    <p></p>
-    <img id="dog" src="test" height="125px" width="200px" />
-    <h1>This image has been downloaded from the database.</h1>
-    <p>(Proof of concept)</p>
+                    <div
+                      v-for="(caption, captionIndex) in captions[nameIndex][
+                        imageIndex
+                      ]"
+                      :key="captionIndex"
+                    >
+                      {{ captionIndex + 1 }} {{ caption }}
+                    </div>
+                  </div>
+                </v-expand-transition>
+              </v-card>
+            </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
   </div>
 </template>
 
 <script>
 import firebase from "firebase/compat/app";
 import "firebase/compat/storage";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
 export default {
   methods: {
-    async showImage() {
-      const storageRef = firebase.storage().ref();
-      storageRef
-        .child("testing/dog.jpg")
-        .getDownloadURL()
-        .then(function (url) {
-          const img = document.getElementById("dog");
-          img.src = url;
+    async populateStoryboards() {
+      const storyboardNames = [];
+      const imageRefs = [];
+      const storyboardDescs = [];
+      const allCaptions = [];
+
+      const namesRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("testID") // change to currentUser.uid
+        .collection("storyboard1") // change to "storyboards"
+        .doc("storyboard_names");
+
+      const storyboardsRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("testID") // change to currentUser.uid
+        .collection("storyboard1"); // change to "storyboards"
+
+      let i, j, k;
+
+      namesRef
+        .get()
+        .then(function (names) {
+          const num_storyboards = names.get("num_storyboards");
+
+          for (i = 1; i <= num_storyboards; i++) {
+            let num = i;
+            let text = num.toString();
+            let name = names.get(text);
+            storyboardNames.push(name);
+            storyboardsRef
+              .doc(name)
+              .get()
+              .then(function (storyboard) {
+                const num_images = storyboard.get("num_images");
+                const images = [];
+                storyboardDescs.push(storyboard.get("storyboard_description"));
+                const storyboardCaptions = [];
+
+                for (j = 1; j <= num_images; j++) {
+                  const imagesRef = storyboardsRef
+                    .doc(name)
+                    .collection("images");
+                  let num = j;
+                  let text = num.toString();
+                  imagesRef
+                    .doc(text)
+                    .get()
+                    .then(function (image) {
+                      let url = image.get("url");
+                      images.push(url);
+                    });
+                  const captionsRef = storyboardsRef
+                    .doc(name)
+                    .collection("images")
+                    .doc(text)
+                    .collection("captions");
+                  captionsRef
+                    .doc("num_captions")
+                    .get()
+                    .then(function (num) {
+                      const num_captions = num.get("num");
+                      const imageCaptions = [];
+                      for (k = 1; k <= num_captions; k++) {
+                        let num = k;
+                        let text = num.toString();
+                        captionsRef
+                          .doc(text)
+                          .get()
+                          .then(function (captions) {
+                            let caption = captions.get("caption");
+                            imageCaptions.push(caption);
+                          });
+                      }
+                      storyboardCaptions.push(imageCaptions);
+                    });
+                }
+                allCaptions.push(storyboardCaptions);
+                imageRefs.push(images);
+              });
+          }
         })
-        .catch(function (error) {
-          console.log(error);
+        .then(() => {
+          this.storyboardNames = storyboardNames;
+        })
+        .then(() => {
+          this.imageRefs = imageRefs;
+        })
+        .then(() => {
+          this.storyboardDescs = storyboardDescs;
+        })
+        .then(() => {
+          this.captions = allCaptions;
         });
     },
   },
 
   beforeMount() {
-    this.showImage();
+    this.populateStoryboards();
   },
 
-  data: () => ({
-    show: false,
-  }),
+  data: () => {
+    return {
+      storyboardNames: [],
+      imageRefs: [],
+      storyboardDescs: [],
+      captions: [],
+      show: false,
+    };
+  },
 };
 </script>
 

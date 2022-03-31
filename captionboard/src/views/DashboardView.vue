@@ -115,9 +115,8 @@ export default {
     },
   
   async getUsername() {
-      await firebase.auth().currentUser.displayName; 
       this.username = firebase.auth().currentUser.displayName;
-    }
+    },
   },
 
   mounted() {
@@ -134,7 +133,7 @@ export default {
     this.$nextTick(this.getUsername);
     this.$nextTick(this.profileType);
   },
-  
+
   data() {
     return {
       username: "error",

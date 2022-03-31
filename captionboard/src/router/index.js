@@ -1,3 +1,6 @@
+// JavaScript file detailing the routr details for the app, which allows the different
+// views of the app to communicate with one another.
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -106,24 +109,11 @@ const router = new VueRouter({
 
 //router guard blocking access to any page with the requiresAuth meta tag unless they are a logged in user
 router.beforeEach((to, from, next) => {
-  
+
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  
-  // let isAdmin = false
-  // if(currentUser != null)
-  // {
-  //     firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).get()
-  //   .then((ds) => {
-  //     if (ds.get("user_type") == 0) {
-  //       isAdmin = true;
-  //     }
-  //   })
-  // }
-  // const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
-  
-  if (requiresAuth && !currentUser)
-  {
+
+  if (requiresAuth && !currentUser) {
     next('/')
   }
   else next()

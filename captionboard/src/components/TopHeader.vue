@@ -1,3 +1,6 @@
+// The running header for the entire app that displays the app logo as well as a 
+// button to log in or to sign out depending on the user's current login status.
+
 <template>
   <div>
     <fieldset class="banner" style="font-family: 'Ubuntu', sans-serif">
@@ -11,7 +14,10 @@
         "
         >CaptionBoard</span
       >
-      <img src="../assets/captionboard_logo_no_words_colour_outline copy.png" style="width: 80px; margin-top: 5px; position:absolute">
+      <img
+        src="../assets/captionboard_logo_no_words_colour_outline copy.png"
+        style="width: 80px; margin-top: 5px; position: absolute"
+      />
       <!-- login status is determined by the created() method below -->
       <span v-if="loggedIn">
         <button type="button" @click="signOut" class="signIn">Sign Out</button>

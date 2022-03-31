@@ -1,3 +1,6 @@
+// This JavaScript page is responsible for importing plugins and also tying the frontend to
+// the backend on Firebase. Do not delete anything on this page.
+
 // import any plugins that we use in the project here
 import Vue from 'vue'
 import App from './App.vue'
