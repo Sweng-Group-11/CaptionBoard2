@@ -1,8 +1,8 @@
 // This view allows an Admin to add a new storyboard.
 
 <template>
-  <v-card flat>
-    <!-- Success Popup after uploading a storyboard -->
+  <!-- <v-card flat>
+  
     <v-snackbar v-model="snackbar" absolute top right color="success">
       <span>Storyboard Succesfully Uploaded!</span>
       <v-icon dark> mdi-checkbox-marked-circle </v-icon>
@@ -47,9 +47,7 @@
           </v-col>
 
           <v-col cols="12">
-            <v-btn @click="onPickFile"> Upload Images Here </v-btn>
-            <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
-
+            <v-btn> Upload Images Here </v-btn>
             <v-checkbox v-model="form.terms" color="green">
               <template v-slot:label>
                 <div @click.stop="">
@@ -59,7 +57,7 @@
             </v-checkbox>
           </v-col>
 
-          <!-- Slider for Time -->
+          
           <v-col cols="12" sm="6">
             <v-slider
               v-model="form.time"
@@ -69,29 +67,52 @@
               min="1"
               max="30"
               thumb-label
-              @change="getSliderVal"
             ></v-slider>
           </v-col>
         </v-row>
       </v-container>
 
-      <!-- Cancel and Submit Storyboard (was register)-->
+      
       <v-card-actions>
         <v-btn text @click="resetForm"> Cancel </v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!formIsValid" text color="primary" type="submit" @click="onUpload">
+        <v-btn :disabled="!formIsValid" text color="primary" type="submit">
           Submit Storyboard
         </v-btn>
       </v-card-actions>
     </v-form>
-  </v-card>
+  </v-card> -->
+
+  <div class="inputFields" style="text-align: center; color: white; font-family: 'Ubuntu', sans-serif">
+    <div class="titleField">
+      <p style="
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+              font-size: 30px;
+              display: inline-block;
+              margin-right: 6%;
+              transform: translate(0,10%);
+            ">Title</p>
+        <input class="titleInput" v-model="storyboardName" required/>
+    </div>
+    <div class="descriptionField">
+      <p style="
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+              font-size: 30px;
+              display: inline-flex;
+              margin-right: 6%;
+              text-align:left;
+              vertical-align:top;
+            ">Description</p>
+        <textarea rows="4" class="descriptionInput" v-model="storyboardName" required/>
+    </div>
+  </div>
 </template>
 
 <script>
-  import firebase from "firebase/compat/app"
-  import "firebase/compat/storage"
-  //import { getStorage, ref, getDownloadURL } from "firebase/storage";
-  import "firebase/compat/auth";
 export default {
   data() {
     const defaultForm = Object.freeze({
@@ -118,8 +139,6 @@ export default {
       snackbar: false,
       terms: false,
       defaultForm,
-      imageData: [],
-      seconds_per_image: 0
     };
   },
 
@@ -139,59 +158,61 @@ export default {
       this.form = Object.assign({}, this.defaultForm);
       this.$refs.form.reset();
     },
-    getSliderVal(number){
-      this.seconds_per_image = number
-      console.log(this.seconds_per_image)
-    },
     submit() {
       this.snackbar = true;
       this.resetForm();
     },
-          onPickFile(){
-        this.$refs.fileInput.click()
-      },
-
-      onFilePicked(event){
-        const files = event.target.files
-        this.imageData = files
-      },
-
-
-      changeThis(url){
-        this.htmlURL = url
-      },
-      onUpload(){
-        for(let i = 0; i < this.imageData.length; i++){
-          firebase.storage().ref('storyboards/'+ firebase.auth().currentUser.uid + '/' + this.form.storyboardName + '/'+ this.imageData[i].name).put(this.imageData[i]);
-        }
-        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).set({
-          company_name: this.form.companyName,
-          num_images: this.imageData.length,
-          seconds_per_image: this.seconds_per_image,
-          storyboard_description: this.form.description,
-          storyboard_name: this.form.storyboardName})
-
-        for(let j = 0; j < this.imageData.length; j++){
-
-
-          let imgNum = j.toString()
-          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: null})
-
-        // const storage = getStorage();
-        // getDownloadURL(ref(storage, 'storyboards/'+ 's1mORuy3WBNrdzwVpp3n7Z7HTKX2/' + 'here/' + 'lucid.jpg'))
-        // .then((outputURL) => {
-        //   firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).collection("images").doc(imgNum).set({
-        //     url: outputURL})
-        // })
-
-        // .catch(() => {
-        //   alert("catching error")
-        // });
-
-        }
-
-      },
-    
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap");
+
+.titleField{
+  background-color: rgb(0, 38, 60);
+  margin-left: 2%;
+  padding: 0.5%;
+  width: 40%;
+  margin-top: 2%;
+  border-radius: 4px;
+}
+
+.titleInput{
+  width: 80%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  border: none;
+  border-bottom: 3px solid #0a6cc7;
+  border-color: rgb(0, 126, 167);
+  outline: 0;
+  background-color: rgb(255, 255, 255);
+  height: 50px;
+  display: inline-block;
+}
+
+.descriptionField{
+  background-color: rgb(0, 38, 60);
+  margin-left: 2%;
+  padding: 0.5%;
+  padding-top: 1%;
+  width: 40%;
+  margin-top: 2%;
+  border-radius: 4px;
+}
+
+.descriptionInput{
+  width: 70%;
+  padding: 10px;
+  font-size: 20px;
+  border: none;
+  border-bottom: 3px solid #0a6cc7;
+  border-color: rgb(0, 126, 167);
+  outline: 0;
+  background-color: rgb(255, 255, 255);
+  height: 100% !important;
+  display: inline-flex;
+}
+</style>
