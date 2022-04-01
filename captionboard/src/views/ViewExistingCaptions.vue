@@ -38,13 +38,13 @@ export default {
       const captionsRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID")
+        .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
         .collection("captions");
 
       const numRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID")
+        .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
         .collection("captions")
         .doc("num_captions");
 
@@ -80,7 +80,7 @@ export default {
                   .firestore()
                   .collection("users")
                   .doc(admin)
-                  .collection("storyboard1")
+                  .collection("storyboard1") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
                   .doc(sb_name)
                   .collection("images")
                   .doc(picture.toString());

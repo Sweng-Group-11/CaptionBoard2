@@ -77,15 +77,15 @@ export default {
       const namesRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID") // change to currentUser.uid
-        .collection("storyboard1") // change to "storyboards"
+        .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+        .collection("storyboard1") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
         .doc("storyboard_names");
 
       const storyboardsRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID") // change to currentUser.uid
-        .collection("storyboard1"); // change to "storyboards"
+        .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+        .collection("storyboard1"); // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
 
       let i, j, k;
 
