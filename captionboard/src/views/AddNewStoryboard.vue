@@ -82,19 +82,33 @@
       </v-card-actions>
     </v-form>
   </v-card> -->
-
-  <div class="inputFields" style="text-align: center; color: white; font-family: 'Ubuntu', sans-serif">
+<div>
+  <div class="leftInputFields" id="leftColumn">
     <div class="titleField">
       <p style="
               padding-top: 10px;
               color: rgb(255, 255, 255);
               text-align: left;
               font-size: 30px;
-              display: inline-block;
+              display: inline-flex;
               margin-right: 6%;
-              transform: translate(0,10%);
+              vertical-align:top;
+              float:left;
             ">Title</p>
         <input class="titleInput" v-model="storyboardName" required/>
+    </div>
+    <div class="titleField">
+      <p style="
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+              font-size: 30px;
+              display: inline-flex;
+              float:left;
+              margin-right: 6%;
+              vertical-align:top;
+            ">Company</p>
+        <input class="titleInput" v-model="companyName" required/>
     </div>
     <div class="descriptionField">
       <p style="
@@ -107,9 +121,13 @@
               text-align:left;
               vertical-align:top;
             ">Description</p>
-        <textarea rows="4" class="descriptionInput" v-model="storyboardName" required/>
+        <textarea rows="4" class="descriptionInput" v-model="description" required/>
     </div>
   </div>
+  <div class="vl">
+  </div>
+  <div class="rightInputFields"></div>
+</div>
 </template>
 
 <script>
@@ -169,17 +187,28 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap");
 
+.leftInputFields{
+  text-align: center; 
+  color: white; 
+  font-family: 'Ubuntu', sans-serif; 
+  display: inline-flex; 
+  vertical-align:top;
+  flex-direction: column;
+  width: 50%;
+}
 .titleField{
   background-color: rgb(0, 38, 60);
   margin-left: 2%;
-  padding: 0.5%;
-  width: 40%;
+  padding: 1%;
+  padding-top: 1%;
+  width: 80%;
   margin-top: 2%;
   border-radius: 4px;
+  display: inline;
 }
 
 .titleInput{
-  width: 80%;
+  width: 70%;
   padding: 10px;
   margin-top: 5px;
   margin-bottom: 15px;
@@ -190,17 +219,21 @@ export default {
   outline: 0;
   background-color: rgb(255, 255, 255);
   height: 50px;
-  display: inline-block;
+  float: right;
+  margin-right: 2%;
 }
 
 .descriptionField{
   background-color: rgb(0, 38, 60);
   margin-left: 2%;
-  padding: 0.5%;
-  padding-top: 1%;
-  width: 40%;
+  padding: 1%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  width: 80%;
   margin-top: 2%;
   border-radius: 4px;
+  display: inline-flex;
+  flex-direction: row;
 }
 
 .descriptionInput{
@@ -213,6 +246,13 @@ export default {
   outline: 0;
   background-color: rgb(255, 255, 255);
   height: 100% !important;
+  display: inline-flex;
+}
+
+.vl {
+  border-right: 6px solid rgb(200, 200, 200);
+  height: 500px;
+  width: 6px;
   display: inline-flex;
 }
 </style>
