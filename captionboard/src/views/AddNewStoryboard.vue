@@ -50,7 +50,7 @@
             <v-btn @click="onPickFile"> Upload Images Here </v-btn>
             <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
 
-            <v-checkbox v-model="form.terms" color="green">
+            <v-checkbox v-model="form.terms" color="green" @change="checkBox">
               <template v-slot:label>
                 <div @click.stop="">
                   Confirm all images are selected for Storyboard.
@@ -90,8 +90,9 @@
 <script>
   import firebase from "firebase/compat/app"
   import "firebase/compat/storage"
-  //import { getStorage, ref, getDownloadURL } from "firebase/storage";
+  import { getStorage, ref, getDownloadURL } from "firebase/storage";
   import "firebase/compat/auth";
+  //import { doc, getDoc } from "firebase/firestore";
 export default {
   data() {
     const defaultForm = Object.freeze({
@@ -120,6 +121,7 @@ export default {
       defaultForm,
       imageData: [],
       seconds_per_image: 0
+      
     };
   },
 
@@ -160,36 +162,104 @@ export default {
       changeThis(url){
         this.htmlURL = url
       },
-      onUpload(){
+
+      checkBox(){
+        //console.log("checkbox is checked")
+        this.puttingStorage()
+      },
+
+      //let holding = this.company_name
+      // callingMeth(){
+      //   firebase.firestore().collection("storyboards").get("storyboard_names").then((ds) =>{
+      //     ds.docs.forEach(doc => {
+      //       console.log(doc.id + " " + ds.size)
+      //       if(doc.id == "storyboard_names"){
+      //         console.log("found it")
+
+      //         return("here")
+      //       }
+      //     })
+      //   });
+      // },
+
+      async createMethod(){
+        const exampleName = this.form.storyboardName
+        firebase.firestore().collection("storyboards").get("storyboard_names").then((ds) =>{
+          ds.docs.forEach(doc => {
+            console.log(doc.id + " " + ds.size)
+            if(doc.id == "storyboard_names"){
+              console.log("found it")
+              const size = ds.size
+              firebase.firestore().collection("storyboards").doc("storyboard_names").update({
+                [(size-1)]: exampleName,
+                num_storyboards: size-1
+              })
+              alert(ds.size)
+              return("here")
+            }
+          })
+        });
+      },
+
+      getURL(){
+        const wo = this.form.storyboardName
+        const storage = getStorage();
+        const uid = firebase.auth().currentUser.uid
+        const holding = firebase.firestore().collection("users").doc(uid).collection("storyboards").doc(wo).collection("images").doc("1")
+
+        
+        for(let i = 0; i < this.imageData.length; i++){
+          // 's1mORuy3WBNrdzwVpp3n7Z7HTKX2/'
+
+          const getting = this.imageData[i].name
+          let ref2
+          ref2 = ref(storage, 'storyboards/'+ uid +'/'+ wo +'/' + getting)
+
+        //let uploadedFile = await firebase.storage().ref2.put(this.imageData[i].name)
+
+          getDownloadURL(ref2)
+          .then((outputURL) => {
+            alert(outputURL)
+            alert(wo)
+
+            holding.set({
+              url: outputURL})
+          })
+          .catch((error) => {
+            alert("output" + error)
+          });
+        }
+      },
+      async puttingStorage(){
         for(let i = 0; i < this.imageData.length; i++){
           firebase.storage().ref('storyboards/'+ firebase.auth().currentUser.uid + '/' + this.form.storyboardName + '/'+ this.imageData[i].name).put(this.imageData[i]);
         }
+      },
+      async onUpload(){
+        //await this.puttingStorage().then(this.getURL())
+        
         firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).set({
           company_name: this.form.companyName,
           num_images: this.imageData.length,
           seconds_per_image: this.seconds_per_image,
           storyboard_description: this.form.description,
           storyboard_name: this.form.storyboardName})
+        
+        firebase.firestore().collection("storyboards").doc(this.form.storyboardName).set({
+          company_name: this.form.companyName,
+          num_images: this.imageData.length,
+          seconds_per_image: this.seconds_per_image,
+          storyboard_description: this.form.description,
+          storyboard_name: this.form.storyboardName
+        })
 
-        for(let j = 0; j < this.imageData.length; j++){
-
-
-          let imgNum = j.toString()
-          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: null})
-
-        // const storage = getStorage();
-        // getDownloadURL(ref(storage, 'storyboards/'+ 's1mORuy3WBNrdzwVpp3n7Z7HTKX2/' + 'here/' + 'lucid.jpg'))
-        // .then((outputURL) => {
-        //   firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.first).collection("images").doc(imgNum).set({
-        //     url: outputURL})
-        // })
-
-        // .catch(() => {
-        //   alert("catching error")
-        // });
-
-        }
-
+        // for(let j = 1; j < this.imageData.length + 1; j++){
+        //   let imgNum = j.toString()
+        //   firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: "fial"})
+        //   //firebase.firestore().collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: null})
+        // }
+        //this.createMethod()
+        this.getURL()
       },
     
   },
