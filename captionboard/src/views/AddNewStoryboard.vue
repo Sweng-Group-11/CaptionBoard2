@@ -82,6 +82,7 @@
       </v-card-actions>
     </v-form>
   </v-card> -->
+<v-form ref="form" @submit.prevent="submit">
 <div class="allInputs">
   <div class="leftInputFields" id="leftColumn">
     <div class="titleField">
@@ -139,7 +140,7 @@
               vertical-align:top;
             ">Image Duration</p>
       <input type="range" min="1" max="30" value="15" 
-      id="imageSliderValue" v-model="form.time" class="imageDurationSlider" oninput="this.nextElementSibling.value = this.value">
+      id="imageSliderValue" v-model="form.time" class="imageDurationSlider" oninput="this.nextElementSibling.value = this.value" @change="getSliderVal">
       <output class="valueBox">15</output>
     </div>
     <div class="consentBoxes"> 
@@ -150,20 +151,29 @@
       </label>
       </div>
       <div class="uploadSubmitButtons">
-        <button type="button" class="addImages">Add Images</button>
+        <button class="addImages" @click="onPickFile">Add Images</button>
+        <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
+        <button class="submit" :disabled="!formIsValid" @click="onUpload">Submit</button>
       </div>
     </div>
   </div>
 </div>
+</v-form>
 </template>
 
 <script>
+  import firebase from "firebase/compat/app"
+  import "firebase/compat/storage"
+  import { getStorage, ref, getDownloadURL } from "firebase/storage";
+  import "firebase/compat/auth";
+  //import { doc, getDoc } from "firebase/firestore";
 export default {
   data() {
     const defaultForm = Object.freeze({
       storyboardName: "",
       companyName: "",
       description: "",
+      favoriteAnimal: "",
       time: null,
       terms: false,
     });
@@ -172,15 +182,20 @@ export default {
       form: Object.assign({}, defaultForm),
       rules: {
         time: [],
+        animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
         description: [
           (val) => (val || "").length > 0 || "This field is required",
         ],
       },
+      animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,
       snackbar: false,
       terms: false,
       defaultForm,
+      imageData: [],
+      seconds_per_image: 0
+      
     };
   },
 
@@ -200,10 +215,128 @@ export default {
       this.form = Object.assign({}, this.defaultForm);
       this.$refs.form.reset();
     },
+    getSliderVal(number){
+      this.seconds_per_image = number
+      console.log(this.seconds_per_image)
+    },
     submit() {
       this.snackbar = true;
       this.resetForm();
     },
+          onPickFile(){
+        this.$refs.fileInput.click()
+      },
+
+      onFilePicked(event){
+        const files = event.target.files
+        this.imageData = files
+      },
+
+
+      changeThis(url){
+        this.htmlURL = url
+      },
+
+      checkBox(){
+        //console.log("checkbox is checked")
+        this.puttingStorage()
+      },
+
+      //let holding = this.company_name
+      // callingMeth(){
+      //   firebase.firestore().collection("storyboards").get("storyboard_names").then((ds) =>{
+      //     ds.docs.forEach(doc => {
+      //       console.log(doc.id + " " + ds.size)
+      //       if(doc.id == "storyboard_names"){
+      //         console.log("found it")
+
+      //         return("here")
+      //       }
+      //     })
+      //   });
+      // },
+
+      async createMethod(){
+        const exampleName = this.form.storyboardName
+        firebase.firestore().collection("storyboards").get("storyboard_names").then((ds) =>{
+          ds.docs.forEach(doc => {
+            console.log(doc.id + " " + ds.size)
+            if(doc.id == "storyboard_names"){
+              console.log("found it")
+              const size = ds.size
+              firebase.firestore().collection("storyboards").doc("storyboard_names").update({
+                [(size-1)]: exampleName,
+                num_storyboards: size-1
+              })
+
+            }
+          })
+        });
+      },
+
+      getURL(){
+        const wo = this.form.storyboardName
+        const storage = getStorage();
+        const uid = firebase.auth().currentUser.uid
+        firebase.firestore().collection("storyboards").doc(this.form.storyboardName)
+        // const holding = firebase.firestore().collection("users").doc(uid).collection("storyboards").doc(wo).collection("images").doc("1")
+
+        
+        for(let i = 0; i < this.imageData.length; i++){
+          // 's1mORuy3WBNrdzwVpp3n7Z7HTKX2/'
+
+          const getting = this.imageData[i].name
+          let ref2
+          ref2 = ref(storage, 'storyboards/'+ uid +'/'+ wo +'/' + getting)
+
+        //let uploadedFile = await firebase.storage().ref2.put(this.imageData[i].name)
+
+          getDownloadURL(ref2)
+          .then((outputURL) => {
+            const holding = firebase.firestore().collection("users").doc(uid).collection("storyboards").doc(wo).collection("images").doc((i+1).toString())
+            firebase.firestore().collection("storyboards").doc(wo).collection("images").doc((i+1).toString()).set({
+              url: outputURL
+            })
+            holding.set({
+              url: outputURL})
+          })
+          .catch((error) => {
+            alert("output" + error)
+          });
+        }
+      },
+      async puttingStorage(){
+        for(let i = 0; i < this.imageData.length; i++){
+          firebase.storage().ref('storyboards/'+ firebase.auth().currentUser.uid + '/' + this.form.storyboardName + '/'+ this.imageData[i].name).put(this.imageData[i]);
+        }
+      },
+      async onUpload(){
+        //await this.puttingStorage().then(this.getURL())
+        
+        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).set({
+          company_name: this.form.companyName,
+          num_images: this.imageData.length,
+          seconds_per_image: this.seconds_per_image,
+          storyboard_description: this.form.description,
+          storyboard_name: this.form.storyboardName})
+        
+        firebase.firestore().collection("storyboards").doc(this.form.storyboardName).set({
+          company_name: this.form.companyName,
+          num_images: this.imageData.length,
+          seconds_per_image: this.seconds_per_image,
+          storyboard_description: this.form.description,
+          storyboard_name: this.form.storyboardName
+        })
+
+        // for(let j = 1; j < this.imageData.length + 1; j++){
+        //   let imgNum = j.toString()
+        //   firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: "fial"})
+        //   //firebase.firestore().collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: null})
+        // }
+        this.createMethod()
+        this.getURL()
+      },
+    
   },
 };
 </script>
@@ -365,11 +498,22 @@ export default {
   display: inline-flex;
   flex-direction: row;
   width: 100%;
+  justify-content: space-between;
 }
 .addImages{
   margin-left: 2%;
   max-width: 300px;
-  width: 30%;
+  width: 40%;
+  padding: 15px, 15px, 15px, 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  height: 40px;
+  background-color: rgb(0, 89, 128);
+}
+.submit{
+  margin-right: 1%;
+  max-width: 300px;
+  width: 40%;
   padding: 15px, 15px, 15px, 15px;
   margin-bottom: 15px;
   margin-top: 15px;
