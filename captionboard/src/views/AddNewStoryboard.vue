@@ -82,7 +82,7 @@
       </v-card-actions>
     </v-form>
   </v-card> -->
-<div>
+<div class="allInputs">
   <div class="leftInputFields" id="leftColumn">
     <div class="titleField">
       <p style="
@@ -126,7 +126,26 @@
   </div>
   <div class="vl">
   </div>
-  <div class="rightInputFields"></div>
+  <div class="rightInputFields">
+    <div class="imageDuration">
+      <p style="
+              padding-top: 10px;
+              color: rgb(255, 255, 255);
+              text-align: left;
+              font-size: 30px;
+              display: inline-flex;
+              float:left;
+              margin-right: 6%;
+              vertical-align:top;
+            ">Image Duration</p>
+      <input type="range" min="1" max="30" value="15" 
+      id="imageSliderValue" v-model="form.time" class="imageDurationSlider" oninput="this.nextElementSibling.value = this.value">
+      <output class="valueBox">15</output>
+    </div>
+    <div class="consentBoxes"> 
+
+    </div>
+  </div>
 </div>
 </template>
 
@@ -137,7 +156,6 @@ export default {
       storyboardName: "",
       companyName: "",
       description: "",
-      favoriteAnimal: "",
       time: null,
       terms: false,
     });
@@ -146,13 +164,11 @@ export default {
       form: Object.assign({}, defaultForm),
       rules: {
         time: [],
-        animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
         description: [
           (val) => (val || "").length > 0 || "This field is required",
         ],
       },
-      animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,
       snackbar: false,
       terms: false,
@@ -254,5 +270,79 @@ export default {
   height: 500px;
   width: 6px;
   display: inline-flex;
+}
+
+.rightInputFields{
+  display: inline-flex;
+  margin-left: 2%;
+  vertical-align: top;
+  width: 45%;
+  text-align: center; 
+  color: white; 
+  font-family: 'Ubuntu', sans-serif; 
+  vertical-align:top;
+  flex-direction: column;
+}
+
+.imageDuration{
+  background-color: rgb(0, 38, 60);
+  margin-left: 2%;
+  padding: 1%;
+  padding-top: 1%;
+  width: 100%;
+  margin-top: 2%;
+  border-radius: 4px;
+  display: inline-flex !important;
+  padding-bottom: 1%;
+  vertical-align: middle;
+}
+.imageDurationSlider{
+  display: inline-flex;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 50%;
+  background:rgb(255, 255, 255);
+  transform: translate(0, 50%);
+  margin-right: 2%;
+  flex: 0 1 55%;
+  justify-content: flex-end;
+}
+
+.imageDurationSlider::-webkit-slider-thumb {
+  -webkit-appearance: none; 
+  appearance: none;
+  width: 5%;
+  height: 35px; 
+  background: rgb(0, 89, 128); 
+  cursor: pointer; 
+}
+
+.valueBox{
+  display: inline-flex;
+  height: 50%;
+  background:rgb(255, 255, 255);
+  width: 5%;
+  margin-right: 2%;
+  transform: translate(0, 50%);
+  color: black;
+  text-align: center;
+  line-height: 200%;
+  padding-left: 1%
+}
+
+.consentBoxes{
+  background-color: rgb(0, 38, 60);
+  margin-left: 2%;
+  padding: 1%;
+  padding-top: 1%;
+  width: 100%;
+  margin-top: 2%;
+  border-radius: 4px;
+  display: inline-flex;
+}
+
+.allInputs{
+  display: inline-block;
+  width: 100%;
 }
 </style>
