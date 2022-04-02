@@ -143,7 +143,15 @@
       <output class="valueBox">15</output>
     </div>
     <div class="consentBoxes"> 
-
+      <div class="checkboxLabel">
+      <label for="uploadedAllImages" style="white-space: nowrap;">
+      <input type="checkbox" class="consetCheckbox" id="uploadedAllImages" v-model="form.terms">
+      Confirm all images are selected for Storyboard.
+      </label>
+      </div>
+      <div class="uploadSubmitButtons">
+        <button type="button" class="addImages">Add Images</button>
+      </div>
     </div>
   </div>
 </div>
@@ -339,10 +347,38 @@ export default {
   margin-top: 2%;
   border-radius: 4px;
   display: inline-flex;
+  flex-direction: column;
+}
+
+.checkboxLabel{
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+}
+.consetCheckbox{
+  display: inline-flex;
+  margin-left: 2%;
+  margin-top: 2%;
+}
+
+.uploadSubmitButtons{
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+}
+.addImages{
+  margin-left: 2%;
+  max-width: 300px;
+  width: 30%;
+  padding: 15px, 15px, 15px, 15px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  height: 40px;
+  background-color: rgb(0, 89, 128);
 }
 
 .allInputs{
-  display: inline-block;
+  display: inline-flex;
   width: 100%;
 }
 </style>
