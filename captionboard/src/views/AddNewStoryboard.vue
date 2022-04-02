@@ -194,8 +194,7 @@ export default {
                 [(size-1)]: exampleName,
                 num_storyboards: size-1
               })
-              alert(ds.size)
-              return("here")
+
             }
           })
         });
@@ -205,7 +204,8 @@ export default {
         const wo = this.form.storyboardName
         const storage = getStorage();
         const uid = firebase.auth().currentUser.uid
-        const holding = firebase.firestore().collection("users").doc(uid).collection("storyboards").doc(wo).collection("images").doc("1")
+        firebase.firestore().collection("storyboards").doc(this.form.storyboardName)
+        // const holding = firebase.firestore().collection("users").doc(uid).collection("storyboards").doc(wo).collection("images").doc("1")
 
         
         for(let i = 0; i < this.imageData.length; i++){
@@ -219,9 +219,10 @@ export default {
 
           getDownloadURL(ref2)
           .then((outputURL) => {
-            alert(outputURL)
-            alert(wo)
-
+            const holding = firebase.firestore().collection("users").doc(uid).collection("storyboards").doc(wo).collection("images").doc((i+1).toString())
+            firebase.firestore().collection("storyboards").doc(wo).collection("images").doc((i+1).toString()).set({
+              url: outputURL
+            })
             holding.set({
               url: outputURL})
           })
@@ -258,7 +259,7 @@ export default {
         //   firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: "fial"})
         //   //firebase.firestore().collection("storyboards").doc(this.form.storyboardName).collection("images").doc(imgNum).set({url: null})
         // }
-        //this.createMethod()
+        this.createMethod()
         this.getURL()
       },
     
