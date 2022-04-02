@@ -82,6 +82,11 @@
       </v-card-actions>
     </v-form>
   </v-card> -->
+
+<div><v-snackbar v-model="snackbar" absolute top right color="success">
+      <span>Storyboard Succesfully Uploaded!</span>
+      <v-icon dark> mdi-checkbox-marked-circle </v-icon>
+    </v-snackbar>
 <v-form ref="form" @submit.prevent="submit">
 <div class="allInputs">
   <div class="leftInputFields" id="leftColumn">
@@ -144,21 +149,22 @@
       <output class="valueBox">15</output>
     </div>
     <div class="consentBoxes"> 
+      <div class="uploadSubmitButtons">
+        <button class="addImages" @click="onPickFile">Add Images</button>
+        <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
+        <button class="submit" :disabled="!formIsValid" @click="onUpload">Submit</button>
+      </div>
       <div class="checkboxLabel">
       <label for="uploadedAllImages" style="white-space: nowrap;">
       <input type="checkbox" class="consetCheckbox" id="uploadedAllImages" v-model="form.terms">
       Confirm all images are selected for Storyboard.
       </label>
       </div>
-      <div class="uploadSubmitButtons">
-        <button class="addImages" @click="onPickFile">Add Images</button>
-        <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
-        <button class="submit" :disabled="!formIsValid" @click="onUpload">Submit</button>
-      </div>
     </div>
   </div>
 </div>
 </v-form>
+</div>
 </template>
 
 <script>
@@ -358,7 +364,7 @@ export default {
   margin-left: 2%;
   padding: 1%;
   padding-top: 1%;
-  width: 80%;
+  width: 92%;
   margin-top: 2%;
   border-radius: 4px;
   display: inline;
@@ -386,11 +392,12 @@ export default {
   padding: 1%;
   padding-top: 2%;
   padding-bottom: 2%;
-  width: 80%;
+  width: 92%;
   margin-top: 2%;
   border-radius: 4px;
   display: inline-flex;
   flex-direction: row;
+  justify-content: space-between;
 }
 
 .descriptionInput{
@@ -404,6 +411,7 @@ export default {
   background-color: rgb(255, 255, 255);
   height: 100% !important;
   display: inline-flex;
+  margin-right: 2%;
 }
 
 .vl {
