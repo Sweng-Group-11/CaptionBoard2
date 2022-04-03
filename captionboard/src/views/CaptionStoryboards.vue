@@ -99,7 +99,7 @@ export default {
         const numRef = firebase
           .firestore()
           .collection("users")
-          .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+          .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
           .collection("captions")
           .doc("num_captions");
 
@@ -112,13 +112,15 @@ export default {
           .get()
           .then(function (storyboard) {
             admin_id = storyboard.get("admin_id");
+            console.log(admin_id + " " + "hello cian")
+            console.log(storyboard.get("admin_id"))
           })
           .then(() => {
             firebase
               .firestore()
               .collection("users")
               .doc(admin_id) 
-              .collection("storyboard1") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+              .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
               .doc(name)
               .collection("images")
               .doc(image.toString())
@@ -127,13 +129,28 @@ export default {
               .get()
               .then(function (num) {
                 let num_captions = num.get("num");
-
+                if(num_captions == null){
+                  firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(admin_id)
+                  .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+                  .doc(name)
+                  .collection("images")
+                  .doc(image.toString())
+                  .collection("captions")
+                  .doc("num_captions")
+                  .set({
+                    num: 1
+                  });
+                }
+                else{
                 num_captions++;
                 firebase
                   .firestore()
                   .collection("users")
                   .doc(admin_id)
-                  .collection("storyboard1") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+                  .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
                   .doc(name)
                   .collection("images")
                   .doc(image.toString())
@@ -142,14 +159,33 @@ export default {
                   .set({
                     num: num_captions,
                   });
-
+                }
+                if(num_captions == null){
+                  let newPoint = "1"
+                  firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(admin_id)
+                  .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+                  .doc(name)
+                  .collection("images")
+                  .doc(image.toString())
+                  .collection("captions")
+                  .doc(newPoint)
+                  .set({
+                    caption: caption,
+                    selected: false,
+                    uid: firebase.auth().currentUser.uid,
+                  });
+                }
+                                  
+                else{
                 const numString = num_captions.toString();
-
                 firebase
                   .firestore()
                   .collection("users")
                   .doc(admin_id)
-                  .collection("storyboard1") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+                  .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
                   .doc(name)
                   .collection("images")
                   .doc(image.toString())
@@ -160,6 +196,7 @@ export default {
                     selected: false,
                     uid: firebase.auth().currentUser.uid,
                   });
+                }
               });
           });
 
@@ -175,7 +212,7 @@ export default {
           firebase
             .firestore()
             .collection("users")
-            .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+            .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
             .collection("captions")
             .doc(num)
             .set({
@@ -234,9 +271,11 @@ export default {
                     .then(function (image) {
                       let url = image.get("url");
                       images.push(url);
+                      console.log(images.length + " " + "this is the imagesLength");
                     });
                 }
                 imageRefs.push(images);
+                console.log(images.length + " " + "this is the imagesRefsLength");
               });
           }
         })

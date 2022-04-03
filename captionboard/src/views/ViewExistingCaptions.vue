@@ -87,6 +87,7 @@ export default {
 
                 imageRef.get().then(function (img) {
                   images.push(img.get("url"));
+                  console.log(img.get("url"));
                 });
               });
           }

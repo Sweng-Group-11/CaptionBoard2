@@ -203,6 +203,10 @@ export default {
                 [(size-1)]: exampleName,
                 num_storyboards: size-1
               })
+              firebase.firestore().collection("storyboards").doc("storyboard_names").update({
+                [(size-1)]: exampleName,
+                num_storyboards: size-1
+              })
               //alert("updatedNames")
 
             }
@@ -257,6 +261,7 @@ export default {
           storyboard_name: this.form.storyboardName})
         
         firebase.firestore().collection("storyboards").doc(this.form.storyboardName).set({
+          admin_id: firebase.auth().currentUser.uid,
           company_name: this.form.companyName,
           num_images: this.imageData.length,
           seconds_per_image: this.seconds_per_image,
