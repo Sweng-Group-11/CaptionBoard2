@@ -6,11 +6,12 @@
   <div>
     <v-spacer></v-spacer>
 
+<!--
     <h1>
       The below images have been successfully downloaded from the backend
       database.
     </h1>
-
+-->
     <div>
       <v-expansion-panels accordion>
         <v-expansion-panel
