@@ -5,9 +5,9 @@
   <div id="user">
     <p>Username: {{ username }}</p>
 
-    <p>Email:</p>
+    <p>Email: ciandoyle251@gmail.com</p>
 
-    <p>Usertype:</p>
+    <p>Usertype: Freelancer</p>
   </div>
   <!-- Same Process as above ^ just need Usertype to display if 
         user is an admin or freelancer, -->
@@ -27,6 +27,12 @@ export default {
       uid: firebase.auth().currentUser.uid,
     };
   },
+  methods: {
+    getUserType(){
+      //firebase.auth().currentUser
+    }
+  }
+
 };
 </script>
 

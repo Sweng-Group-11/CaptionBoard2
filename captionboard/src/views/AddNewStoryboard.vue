@@ -184,34 +184,21 @@ export default {
 
       async createMethod(){
         const exampleName = this.form.storyboardName
-        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").get("storyboard_names").then((ds) =>{
-          if(ds.docs.length == 1){
-            //const size = ds.size
-            //alert("made it to if")
-              firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc("storyboard_names").set({
-                [1]: exampleName,
-                num_storyboards: 1
-              })
-          }
-          ds.docs.forEach(doc => {
-            //alert(ds.size)
-            console.log(doc.id + " " + ds.size)
-            if(doc.id == "storyboard_names"){
-              console.log("found it")
-              const size = ds.size
-              firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc("storyboard_names").update({
-                [(size-1)]: exampleName,
-                num_storyboards: size-1
-              })
-              firebase.firestore().collection("storyboards").doc("storyboard_names").update({
-                [(size-1)]: exampleName,
-                num_storyboards: size-1
-              })
-              //alert("updatedNames")
-
-            }
+        firebase.firestore().collection("storyboards").get().then((ds) =>{
+          //alert(ds.docs.length)
+          let size = ds.docs.length
+          firebase.firestore().collection("storyboards").doc("storyboard_names").update({
+            [(size-1)]: exampleName,
+            num_storyboards: size-1
           })
         });
+        firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").get().then((ds) =>{
+          let size = ds.docs.length
+          firebase.firestore().collection("users").doc(firebase.auth().currentUser.uid).collection("storyboards").doc("storyboard_names").update({
+            [(size-1)]: exampleName,
+            num_storyboards: size-1
+          })
+        })
       },
 
       getURL(){

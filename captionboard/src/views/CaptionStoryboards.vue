@@ -143,6 +143,7 @@ export default {
                   .set({
                     num: 1
                   });
+                  //alert(firebase.auth().currentUser.uid)
                 }
                 else{
                 num_captions++;
@@ -159,9 +160,10 @@ export default {
                   .set({
                     num: num_captions,
                   });
+                  //alert(firebase.auth().currentUser.uid)
                 }
                 if(num_captions == null){
-                  let newPoint = "1"
+                  //let newPoint = "1"
                   firebase
                   .firestore()
                   .collection("users")
@@ -171,7 +173,7 @@ export default {
                   .collection("images")
                   .doc(image.toString())
                   .collection("captions")
-                  .doc(newPoint)
+                  .doc((1).toString())
                   .set({
                     caption: caption,
                     selected: false,
@@ -180,7 +182,7 @@ export default {
                 }
                                   
                 else{
-                const numString = num_captions.toString();
+                //const numString = num_captions.toString();
                 firebase
                   .firestore()
                   .collection("users")
@@ -190,22 +192,30 @@ export default {
                   .collection("images")
                   .doc(image.toString())
                   .collection("captions")
-                  .doc(numString)
+                  .doc(num_captions.toString())
                   .set({
                     caption: caption,
                     selected: false,
                     uid: firebase.auth().currentUser.uid,
                   });
+                  //alert(num_captions)
                 }
               });
           });
 
         numRef.get().then(function (number) {
           let num_captions = number.get("num");
-          num_captions++;
-          numRef.set({
-            num: num_captions,
-          });
+          if(num_captions == null){
+            numRef.set({
+              num: 1
+            })
+          }
+          else{
+            num_captions++;
+            numRef.set({
+              num: num_captions,
+            });
+          }
 
           const num = num_captions.toString();
 

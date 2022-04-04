@@ -35,38 +35,41 @@ import "firebase/compat/firestore";
 export default {
   methods: {
     async populateCaptions() {
+      //alert("running")
       const captionsRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+        .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
         .collection("captions");
+        // alert()
 
       const numRef = firebase
         .firestore()
         .collection("users")
-        .doc("testID") // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+        .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
         .collection("captions")
         .doc("num_captions");
-
+        //alert(numRef.id.valueOf())
       const admins = [];
       const captions = [];
       const pictures = [];
       const storyboard_names = [];
       const images = [];
-
+// alert()
       numRef
         .get()
         .then(function (num) {
           const num_captions = num.get("num");
           for (let i = 1; i <= num_captions; i++) {
             let num = i.toString();
+            //alert()
             captionsRef
               .doc(num)
               .get()
               .then(function (caption) {
                 const admin = caption.get("admin_id");
                 admins.push(admin);
-
+                //alert()
                 const thisCaption = caption.get("caption");
                 captions.push(thisCaption);
 
@@ -80,14 +83,14 @@ export default {
                   .firestore()
                   .collection("users")
                   .doc(admin)
-                  .collection("storyboard1") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+                  .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
                   .doc(sb_name)
                   .collection("images")
                   .doc(picture.toString());
 
                 imageRef.get().then(function (img) {
                   images.push(img.get("url"));
-                  console.log(img.get("url"));
+                  //console.log(img.get("url"));
                 });
               });
           }
