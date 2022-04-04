@@ -14,6 +14,9 @@
       <span v-else-if="isFreelancer">
         <navBarFreelancer></navBarFreelancer>
       </span>
+      <span v-else>
+        <navBarGeneral></navBarGeneral>
+      </span>
 
       <!--  The below line is required to display the other views of the page. The app will not work
             without it and if it is repeated anywhere then the pages will also repeat. -->
@@ -27,6 +30,8 @@
 import TopHeader from "./components/TopHeader.vue";
 import navBarFreelancer from "./components/NavbarFreelancer.vue";
 import navBarAdmin from "./components/NavbarAdmin.vue";
+import NavbarGeneral from "./components/NavbarGeneral.vue";
+
 
 // imports required firebase libraries
 import firebase from "firebase/compat/app";
@@ -39,6 +44,7 @@ export default {
     "top-header": TopHeader,
     navBarFreelancer: navBarFreelancer,
     navBarAdmin: navBarAdmin,
+    navBarGeneral: NavbarGeneral
   },
 
   methods: {
