@@ -1,88 +1,6 @@
 // This view allows an Admin to add a new storyboard.
 
 <template>
-  <!-- <v-card flat>
-    <v-snackbar v-model="snackbar" absolute top right color="success">
-      <span>Storyboard Succesfully Uploaded!</span>
-      <v-icon dark> mdi-checkbox-marked-circle </v-icon>
-    </v-snackbar>
-
-    <v-form ref="form" @submit.prevent="submit">
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12" sm="6">
-            <v-text-field
-              v-model="form.storyboardName"
-              :rules="rules.name"
-              color="blue darken-2"
-              label="Storyboard Name"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field
-              v-model="form.companyName"
-              :rules="rules.name"
-              color="blue darken-2"
-              label="Company Name"
-              required
-            ></v-text-field>
-          </v-col>
-
-          <v-col cols="12">
-            <v-textarea
-              v-model="form.description"
-              :rules="rules.description"
-              color="blue"
-              srequired
-            >
-              <template v-slot:label>
-                <div>
-                  Description of Storyboard
-                  <small>(theme, mood, language)</small>
-                </div>
-              </template>
-            </v-textarea>
-          </v-col>
-
-          <v-col cols="12">
-            <v-btn @click="onPickFile"> Upload Images Here </v-btn>
-            <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
-
-            <v-checkbox v-model="form.terms" color="green" @change="checkBox">
-              <template v-slot:label>
-                <div @click.stop="">
-                  Confirm all images are selected for Storyboard.
-                </div>
-              </template>
-            </v-checkbox>
-          </v-col>
-
-          <v-col cols="12" sm="6">
-            <v-slider
-              v-model="form.time"
-              :rules="rules.time"
-              color="orange"
-              label="Set timer for each image"
-              min="1"
-              max="30"
-              thumb-label
-              @change="getSliderVal"
-            ></v-slider>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <v-card-actions>
-        <v-btn text @click="resetForm"> Cancel </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn :disabled="!formIsValid" text color="primary" type="submit" @click="onUpload">
-          Submit Storyboard
-        </v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card> -->
-
 <v-card flat>
   <v-snackbar v-model="snackbar" absolute top right color="success">
       <span>Storyboard Succesfully Uploaded!</span>
@@ -157,9 +75,11 @@
       </label>
       </div>
       <div class="uploadSubmitButtons">
-        <button class="addImages" @click="onPickFile">Add Images</button>
-        <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
-        <button class="submit" :disabled="!formIsValid" @click="onUpload">Submit</button>
+        <v-btn class="addImages" @click="onPickFile"> Upload Images Here </v-btn>
+            <input type="file" id="myFile" style="display: none;" ref="fileInput" accept="images/*" @change="onFilePicked" multiple/>
+        <v-btn :disabled="!formIsValid" type="submit" @click="onUpload" class="submit">
+          Submit Storyboard
+        </v-btn>
       </div>
     </div>
   </div>
@@ -180,7 +100,6 @@ export default {
       storyboardName: "",
       companyName: "",
       description: "",
-      favoriteAnimal: "",
       time: null,
       terms: false,
     });
@@ -189,13 +108,11 @@ export default {
       form: Object.assign({}, defaultForm),
       rules: {
         time: [],
-        animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
         description: [
           (val) => (val || "").length > 0 || "This field is required",
         ],
       },
-      animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,
       snackbar: false,
       terms: false,
@@ -230,7 +147,7 @@ export default {
       this.snackbar = true;
       this.resetForm();
     },
-          onPickFile(){
+   onPickFile(){
         this.$refs.fileInput.click()
       },
 
