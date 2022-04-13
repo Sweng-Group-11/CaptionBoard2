@@ -99,7 +99,6 @@ export default {
       storyboardName: "",
       companyName: "",
       description: "",
-      favoriteAnimal: "",
       time: null,
       terms: false,
     });
@@ -108,13 +107,11 @@ export default {
       form: Object.assign({}, defaultForm),
       rules: {
         time: [],
-        animal: [(val) => (val || "").length > 0 || "This field is required"],
         name: [(val) => (val || "").length > 0 || "This field is required"],
         description: [
           (val) => (val || "").length > 0 || "This field is required",
         ],
       },
-      animals: ["Dog", "Cat", "Rabbit", "Turtle", "Snake"],
       conditions: false,
       snackbar: false,
       terms: false,
