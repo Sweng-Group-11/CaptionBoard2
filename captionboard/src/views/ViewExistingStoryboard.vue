@@ -3,62 +3,53 @@
 // it will also allow them to select their favourite caption for each image.
 
 <template>
-  <div>
+<div>
     <v-spacer></v-spacer>
 
-<!--
+    <!--
     <h1>
       The below images have been successfully downloaded from the backend
       database.
     </h1>
 -->
     <div>
-      <v-expansion-panels accordion>
-        <v-expansion-panel
-          v-for="(name, nameIndex) in storyboardNames"
-          :key="nameIndex"
-        >
-          <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <p>{{ storyboardDescs[nameIndex] }}</p>
-            <div
-              v-for="(image, imageIndex) in imageRefs[nameIndex]"
-              :key="imageIndex"
-            >
-              <v-card class="mx-auto" max-width="30%">
-                <v-img :src="image" height="auto"></v-img>
+        <v-expansion-panels accordion>
+            <v-expansion-panel v-for="(name, nameIndex) in storyboardNames" :key="nameIndex">
+                <v-expansion-panel-header>{{ name }}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                    <p>{{ storyboardDescs[nameIndex] }}</p>
+                    <div v-for="(image, imageIndex) in imageRefs[nameIndex]" :key="imageIndex">
+                        <v-card class="mx-auto" max-width="30%">
+                            <v-img :src="image" height="auto"></v-img>
 
-                <v-card-actions>
-                  <div class="blue--text">Captions for this Image</div>
+                            <v-card-actions>
+                                <div class="blue--text">Captions for this Image</div>
 
-                  <v-btn icon @click="show = !show">
-                    <v-icon>
-                      {{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}
-                    </v-icon>
-                  </v-btn>
-                </v-card-actions>
+                                <v-btn icon @click="show = !show">
+                                    <v-icon>
+                                        {{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                                    </v-icon>
+                                </v-btn>
+                            </v-card-actions>
 
-                <v-expand-transition>
-                  <div v-show="show">
-                    <v-divider></v-divider>
+                            <v-expand-transition>
+                                <div v-show="show">
+                                    <v-divider></v-divider>
 
-                    <div
-                      v-for="(caption, captionIndex) in captions[nameIndex][
+                                    <div v-for="(caption, captionIndex) in captions[nameIndex][
                         imageIndex
-                      ]"
-                      :key="captionIndex"
-                    >
-                      {{ captionIndex + 1 }} {{ caption }}
+                      ]" :key="captionIndex">
+                                        {{ captionIndex + 1 }} {{ caption }}
+                                    </div>
+                                </div>
+                            </v-expand-transition>
+                        </v-card>
                     </div>
-                  </div>
-                </v-expand-transition>
-              </v-card>
-            </div>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -68,121 +59,120 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 export default {
-  methods: {
-    async populateStoryboards() {
-      const storyboardNames = [];
-      const imageRefs = [];
-      const storyboardDescs = [];
-      const allCaptions = [];
+    methods: {
+        async populateStoryboards() {
+            const storyboardNames = [];
+            const imageRefs = [];
+            const storyboardDescs = [];
+            const allCaptions = [];
 
-      const namesRef = firebase
-        .firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
-        .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
-        .doc("storyboard_names");
+            const namesRef = firebase
+                .firestore()
+                .collection("users")
+                .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+                .collection("storyboards") // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+                .doc("storyboard_names");
 
-      const storyboardsRef = firebase
-        .firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
-        .collection("storyboards"); // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
+            const storyboardsRef = firebase
+                .firestore()
+                .collection("users")
+                .doc(firebase.auth().currentUser.uid) // SET THIS TO CURRENT USER UID WHEN UPLOADING IS FINISHED
+                .collection("storyboards"); // CHANGE THIS TO "storyboards" WHEN UPLOADING IS FINISHED 
 
-      let i, j, k;
+            let i, j, k;
 
-      namesRef
-        .get()
-        .then(function (names) {
-          const num_storyboards = names.get("num_storyboards");
+            namesRef
+                .get()
+                .then(function (names) {
+                    const num_storyboards = names.get("num_storyboards");
 
-          for (i = 1; i <= num_storyboards; i++) {
-            let num = i;
-            let text = num.toString();
-            let name = names.get(text);
-            storyboardNames.push(name);
-            storyboardsRef
-              .doc(name)
-              .get()
-              .then(function (storyboard) {
-                const num_images = storyboard.get("num_images");
-                const images = [];
-                storyboardDescs.push(storyboard.get("storyboard_description"));
-                const storyboardCaptions = [];
-
-                for (j = 1; j <= num_images; j++) {
-                  const imagesRef = storyboardsRef
-                    .doc(name)
-                    .collection("images");
-                  let num = j;
-                  let text = num.toString();
-                  imagesRef
-                    .doc(text)
-                    .get()
-                    .then(function (image) {
-                      let url = image.get("url");
-                      images.push(url);
-                    });
-                  const captionsRef = storyboardsRef
-                    .doc(name)
-                    .collection("images")
-                    .doc(text)
-                    .collection("captions");
-                  captionsRef
-                    .doc("num_captions")
-                    .get()
-                    .then(function (num) {
-                      const num_captions = num.get("num");
-                      const imageCaptions = [];
-                      for (k = 1; k <= num_captions; k++) {
-                        let num = k;
+                    for (i = 1; i <= num_storyboards; i++) {
+                        let num = i;
                         let text = num.toString();
-                        captionsRef
-                          .doc(text)
-                          .get()
-                          .then(function (captions) {
-                            let caption = captions.get("caption");
-                            imageCaptions.push(caption);
-                          });
-                      }
-                      storyboardCaptions.push(imageCaptions);
-                    });
-                }
-                allCaptions.push(storyboardCaptions);
-                imageRefs.push(images);
-              });
-          }
-        })
-        .then(() => {
-          this.storyboardNames = storyboardNames;
-        })
-        .then(() => {
-          this.imageRefs = imageRefs;
-        })
-        .then(() => {
-          this.storyboardDescs = storyboardDescs;
-        })
-        .then(() => {
-          this.captions = allCaptions;
-        });
+                        let name = names.get(text);
+                        storyboardNames.push(name);
+                        storyboardsRef
+                            .doc(name)
+                            .get()
+                            .then(function (storyboard) {
+                                const num_images = storyboard.get("num_images");
+                                const images = [];
+                                storyboardDescs.push(storyboard.get("storyboard_description"));
+                                const storyboardCaptions = [];
+
+                                for (j = 1; j <= num_images; j++) {
+                                    const imagesRef = storyboardsRef
+                                        .doc(name)
+                                        .collection("images");
+                                    let num = j;
+                                    let text = num.toString();
+                                    imagesRef
+                                        .doc(text)
+                                        .get()
+                                        .then(function (image) {
+                                            let url = image.get("url");
+                                            images.push(url);
+                                        });
+                                    const captionsRef = storyboardsRef
+                                        .doc(name)
+                                        .collection("images")
+                                        .doc(text)
+                                        .collection("captions");
+                                    captionsRef
+                                        .doc("num_captions")
+                                        .get()
+                                        .then(function (num) {
+                                            const num_captions = num.get("num");
+                                            const imageCaptions = [];
+                                            for (k = 1; k <= num_captions; k++) {
+                                                let num = k;
+                                                let text = num.toString();
+                                                captionsRef
+                                                    .doc(text)
+                                                    .get()
+                                                    .then(function (captions) {
+                                                        let caption = captions.get("caption");
+                                                        imageCaptions.push(caption);
+                                                    });
+                                            }
+                                            storyboardCaptions.push(imageCaptions);
+                                        });
+                                }
+                                allCaptions.push(storyboardCaptions);
+                                imageRefs.push(images);
+                            });
+                    }
+                })
+                .then(() => {
+                    this.storyboardNames = storyboardNames;
+                })
+                .then(() => {
+                    this.imageRefs = imageRefs;
+                })
+                .then(() => {
+                    this.storyboardDescs = storyboardDescs;
+                })
+                .then(() => {
+                    this.captions = allCaptions;
+                });
+        },
     },
-  },
 
-  beforeMount() {
-    this.populateStoryboards();
-  },
+    beforeMount() {
+        this.populateStoryboards();
+    },
 
-  data: () => {
-    return {
-      storyboardNames: [],
-      imageRefs: [],
-      storyboardDescs: [],
-      captions: [],
-      show: false,
-    };
-  },
+    data: () => {
+        return {
+            storyboardNames: [],
+            imageRefs: [],
+            storyboardDescs: [],
+            captions: [],
+            show: false,
+        };
+    },
 };
 </script>
-
 
 <style scoped>
 </style>
